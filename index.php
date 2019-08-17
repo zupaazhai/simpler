@@ -1,4 +1,7 @@
 <?php
+
+session_start();
+
 define('DS', DIRECTORY_SEPARATOR);
 define('VIEW_DIR', __DIR__ . DS . 'resources' . DS . 'views' . DS);
 define('PUBLIC_DIR', 'public');

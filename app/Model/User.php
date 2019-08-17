@@ -2,7 +2,9 @@
 
 namespace App\Model;
 
+use App\Exception\UserEmailExistsException;
 use App\Exception\UserExistsException;
+use App\Exception\UserNotFoundException;
 use App\Library\FileCrypt;
 
 class User
@@ -38,11 +40,17 @@ class User
     {
         $user = array_only($user, $this->fillable);
 
-        $isExist = $this->findOne('username', $user['username']);
-        $isExist = !empty($isExist);
+        $foundUser = $this->findOne('username', $user['username']);
+        $isExist = !empty($foundUser);
 
         if ($isExist) {
             throw new UserExistsException();
+        }
+
+        $foundUser = $this->findOne('email', $user['email']);
+
+        if ($foundUser['email'] == $user['email']) {
+            throw new UserEmailExistsException();
         }
 
         $users = $this->readFile();
@@ -109,10 +117,12 @@ class User
     {
         $users = $this->findAll();
         $users = array_filter($users, function ($user) use ($findKey, $findValue) {
-            return $user[$findKey] == $findValue;
+            return !empty($user[$findKey]) && $user[$findKey] == $findValue;
         });
 
-        return empty($users[0]) ? false : $users[0];
+        $user = array_shift($users);
+
+        return empty($user) ? false : $user;
     }
     
     /**
@@ -133,6 +143,44 @@ class User
     public function deleteAll()
     {
         return $this->storeFile(array());
+    }
+
+    /**
+     * Check in any user registered
+     *
+     * @return boolean
+     */
+    public function noBodyHere()
+    {
+        $users = $this->findAll();
+
+        return empty($users);
+    }
+    
+    /**
+     * Check user
+     *
+     * @param string $username
+     * @param string $password
+     * 
+     * @return boolean
+     */
+    public function checkUser($username, $password)
+    {
+        $users = $this->findAll();
+        $password = $this->password($password);
+
+        $user = array_filter($users, function ($user) use ($username, $password) {
+            return $user['username'] == $username && $user['password'] == $password;
+        });
+
+        $user = array_shift($user);
+
+        if (empty($user)) {
+            throw new UserNotFoundException();
+        }
+        
+        return $user;
     }
 
     /**
