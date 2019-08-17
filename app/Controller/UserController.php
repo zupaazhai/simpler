@@ -15,7 +15,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->user = new User;
-        $this->logedInTo = '/dashboard';
+        $this->logedInTo = CALLBACK_REDIRECT;
     }
 
     /**
@@ -155,9 +155,6 @@ class UserController extends Controller
     /**
      * Check in logged in
      * 
-     * @param callable $loggedInCallback
-     * @param callable $guestCallback
-     *
      * @return boolean
      */
     public static function loggedIn()

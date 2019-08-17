@@ -230,3 +230,22 @@ function is_request($method)
 
     return strtolower($method) == strtolower($currentMethod); 
 }
+
+/**
+ * Check contains in string
+ *
+ * @param string $heystack
+ * @param array $needles
+ * 
+ * @return boolean
+ */
+function is_contains($heystack, $needles = array())
+{
+    $result = array();
+
+    foreach ($needles as $needle) {
+        $result[] = strpos($heystack, $needle) !== false; 
+    }
+
+    return in_array(true, $result);
+}
