@@ -1,0 +1,7 @@
+# Simpler
+
+## Installtion
+
+```
+composer install
+```
