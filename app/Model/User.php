@@ -15,6 +15,8 @@ class User
 
     protected $passpharse;
 
+    protected $sessionKey;
+
     public $fillable = array(
         'username',
         'email',
@@ -27,6 +29,8 @@ class User
 
         $this->userFile = USER_FILE_KEY;
         $this->passpharse = USER_PASSPHARSE;
+
+        $this->sessionKey = 'user';
     }
 
     /**
@@ -181,6 +185,32 @@ class User
         }
         
         return $user;
+    }
+
+    /**
+     * Get user session
+     *
+     * @param array $user
+     * 
+     * @return void
+     */
+    public function setUserSession($user)
+    {
+        $_SESSION[$this->sessionKey] = json_encode($user);
+    }
+
+    /**
+     * Get user session
+     *
+     * @return array
+     */
+    public function current()
+    {
+        if (empty($_SESSION[$this->sessionKey])) {
+            return false;
+        }
+        
+        return json_decode($_SESSION[$this->sessionKey], true);
     }
 
     /**
