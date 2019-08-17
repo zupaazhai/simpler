@@ -8,14 +8,14 @@ use App\Exception\UserNotFoundException;
 use App\Model\User;
 use Flight;
 
-class UserController
+class UserController extends Controller
 {
     public $logedInTo;
 
     public function __construct()
     {
         $this->user = new User;
-        $this->logedInTo = '/dashboard';    
+        $this->logedInTo = '/dashboard';
     }
 
     /**
@@ -25,6 +25,7 @@ class UserController
      */
     public function loginForm()
     {
+        $this->allowGuest();
         $isNoBody = $this->user->noBodyHere();
         $view = $isNoBody ? 'auth.register' : 'auth.login';
         view($view, array('title' => $isNoBody ? 'Register' : 'Login'), 'content');
@@ -53,7 +54,7 @@ class UserController
         flash('errors', $errors);
 
         try {
-            $this->user->checkUser($req['username'], $req['password']);
+            $user = $this->user->checkUser($req['username'], $req['password']);
         } catch (UserNotFoundException $e) {
 
             flash('errors', array('username' => $e->getMessage()));
@@ -61,7 +62,7 @@ class UserController
         }
         
         unbind('errors');
-        return $this->redirectAfterLogedIn();
+        return $this->redirectAfterLogedIn($user);
     }
 
     /**
@@ -144,8 +145,26 @@ class UserController
      *
      * @return \Flight
      */
-    public function redirectAfterLogedIn()
+    public function redirectAfterLogedIn($user)
     {
+        $this->user->setUserSession($user);
+
         return Flight::redirect($this->logedInTo);
+    }
+
+    /**
+     * Check in logged in
+     * 
+     * @param callable $loggedInCallback
+     * @param callable $guestCallback
+     *
+     * @return boolean
+     */
+    public static function loggedIn()
+    {
+        $userModel = new User;
+        $user = $userModel->current();
+
+        return !empty($user);
     }
 }
