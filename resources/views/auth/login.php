@@ -1,7 +1,7 @@
 <div class="login-box">
 
     <div class="login-logo">
-        <a href=""><b>Simpler</a>
+        <a href=""><b><?php echo config('APP_NAME') ?></a>
     </div>
 
     <div class="card">

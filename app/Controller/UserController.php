@@ -10,12 +10,17 @@ use Flight;
 
 class UserController extends Controller
 {
-    public $logedInTo;
+    protected $user;
+
+    protected $logedInTo;
+
+    protected $loggedOutTo;
 
     public function __construct()
     {
         $this->user = new User;
         $this->logedInTo = CALLBACK_REDIRECT;
+        $this->loggedOutTo = FALLBACK_REDIRECT;
     }
 
     /**
@@ -131,6 +136,18 @@ class UserController extends Controller
     }
 
     /**
+     * Logout
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        $this->user->logout();
+
+        return $this->redirectAfterLoggedOut();
+    }
+
+    /**
      * Redirect after created
      *
      * @return \Flight
@@ -150,6 +167,16 @@ class UserController extends Controller
         $this->user->setUserSession($user);
 
         return Flight::redirect($this->logedInTo);
+    }
+
+    /**
+     * Redirect after logged out
+     *
+     * @return \Flight
+     */
+    public function redirectAfterLoggedOut()
+    {
+        return Flight::redirect($this->loggedOutTo);
     }
 
     /**

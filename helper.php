@@ -249,3 +249,16 @@ function is_contains($heystack, $needles = array())
 
     return in_array(true, $result);
 }
+
+/**
+ * Get config value
+ *
+ * @param string $key
+ * @param mixed $default
+ * 
+ * @return mixed
+ */
+function config($key, $default = null)
+{
+    return defined($key) ? constant($key) : $default;
+}

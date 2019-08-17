@@ -3,6 +3,9 @@
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
+
+define('APP_NAME', 'Simpler');
+
 define('VIEW_DIR', __DIR__ . DS . 'resources' . DS . 'views' . DS);
 define('PUBLIC_DIR', 'public');
 define('STORAGE_DIR', __DIR__ . DS . 'storage' . DS);

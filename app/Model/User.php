@@ -200,6 +200,16 @@ class User
     }
 
     /**
+     * Logout
+     *
+     * @return void
+     */
+    public function logout()
+    {
+        unset($_SESSION[$this->sessionKey]);
+    }
+
+    /**
      * Get user session
      *
      * @return array

@@ -1,15 +1,17 @@
 <div class="wrapper">
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
+        <ul class="navbar-nav ml-auto">
+            <li>
+                <form action="/logout" method="post">
+                    <button class="btn">Log out</button>
+                </form>
             </li>
         </ul>
     </nav>
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="../index3.html" class="brand-link text-center">
-            <span class="brand-text font-weight-light">AdminLTE 3</span>
+            <span class="brand-text font-weight"><?php echo config('APP_NAME') ?></span>
         </a>
 
         <div class="sidebar">
