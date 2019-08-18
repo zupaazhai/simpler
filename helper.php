@@ -262,3 +262,18 @@ function config($key, $default = null)
 {
     return defined($key) ? constant($key) : $default;
 }
+
+/**
+ * Include view partial
+ *
+ * @param string $path
+ * 
+ * @return void
+ */
+function partial($path)
+{
+    $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
+    $path = $path . '.php';
+
+    include(VIEW_DIR . 'partials' . DS . $path);
+}
