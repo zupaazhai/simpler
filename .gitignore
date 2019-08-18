@@ -1,2 +1,4 @@
 /vendor/
 /storage/
+/public/asset/*.js
+/public/asset/*.css

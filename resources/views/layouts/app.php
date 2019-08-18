@@ -18,7 +18,7 @@
         <?php partial('sidebar') ?>
 
         <div class="content-wrapper">
-            <?php echo $content ?>
+            <?php echo empty($content) ? '' : $content ?>
         </div>
     </div>
 

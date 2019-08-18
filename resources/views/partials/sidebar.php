@@ -23,6 +23,14 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
+                    <a href="/asset" class="nav-link <?php echo current_route('/asset') ? 'active' : '' ?>"">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Asset
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item has-treeview">
                     <a href="/user" class="nav-link <?php echo current_route('/user') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
