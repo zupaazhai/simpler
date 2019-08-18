@@ -19,7 +19,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->user = new User;
-        $this->logedInTo = CALLBACK_REDIRECT;
+        $this->logedInTo = FALLBACK_REDIRECT;
         $this->loggedOutTo = FALLBACK_REDIRECT;
     }
 
@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = $this->user->findAll();
+        $users = $this->user->findAll('created_at', 'desc');
 
         $data = array(
             'title' => 'User',
@@ -63,11 +63,6 @@ class UserController extends Controller
     public function adminCreate()
     {
         $this->logedInTo = '/user';
-
-        flash('status', array(
-            'status' => 'success',
-            'message' => 'Create user success',
-        ));
 
         return $this->create();
     }
@@ -264,6 +259,11 @@ class UserController extends Controller
 
             return back($req);
         }
+
+        flash('status', array(
+            'status' => 'success',
+            'message' => 'Create user success',
+        ));
 
         unbind('errors');
         return $this->redirectAfterCreated();

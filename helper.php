@@ -368,3 +368,15 @@ function script($scripts = array())
 
     Flight::view()->set('scripts', $result);
 }
+
+/**
+ * Show data format
+ *
+ * @param float $timestamp
+ * 
+ * @return string
+ */
+function format_date($timestamp)
+{
+    return date('Y-m-d H:i:s', $timestamp);
+}

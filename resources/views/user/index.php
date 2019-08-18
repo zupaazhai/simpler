@@ -29,6 +29,7 @@
                                     <th style="width: 3%">#</th>
                                     <th style="width: 20%">Username</th>
                                     <th>Email</th>
+                                    <th>Created At</th>
                                     <th style="width: 5%"></th>
                                 </tr>
                             </thead>
@@ -40,6 +41,7 @@
                                         <a href="/user/<?php __($user['id']) ?>"><?php __($user['username']) ?></a>
                                     </td>
                                     <td><?php echo $user['email'] ?></td>
+                                    <td><?php __(format_date($user['created_at'])) ?></td>
                                     <td>
                                         <button data-target="#delete-form-<?php __($user['id']) ?>" class="delete-btn btn btn-danger"><i class="fas fa-trash"></i></button>
                                         <form id="delete-form-<?php __($user['id']) ?>" action="/user/<?php __($user['id']) ?>" method="post">
@@ -50,7 +52,7 @@
                                 <?php endforeach; ?>
                                 <?php if (empty($users)): ?>
                                 <tr>
-                                    <td colspan="4">No user found</td>
+                                    <td colspan="5">No user found</td>
                                 </tr>
                                 <?php endif; ?>
                             </tbody>

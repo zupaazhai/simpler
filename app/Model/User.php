@@ -20,7 +20,9 @@ class User
     public $fillable = array(
         'username',
         'email',
-        'password'
+        'password',
+        'created_at',
+        'updated_at'
     );
 
     public function __construct()
@@ -60,6 +62,8 @@ class User
         $users = $this->readFile();
         $user['id'] = md5(time() . rand(1, 99));
         $user['password'] = $this->password($user['password']);
+        $user['created_at'] = time();
+        $user['updated_at'] = time();
         
         $users[] = $user;
         $this->storeFile($users);
@@ -120,6 +124,8 @@ class User
 
         unset($data['confirm_password']);
 
+        $data['updated_at'] = time();
+
         $user = array_merge($user, $data);
         $userIndex = $this->findIndex($findKey, $findValue);
 
@@ -162,9 +168,18 @@ class User
      *
      * @return array
      */
-    public function findAll()
+    public function findAll($sort = 'created_at', $direction = 'asc')
     {
-        return $this->readFile();
+        $users = $this->readFile();
+        $columns = array();
+
+        foreach ($users as $user) {
+            $columns[] = $user[$sort];
+        }
+                
+        array_multisort($columns, $direction == 'asc' ? SORT_ASC : SORT_DESC, $users);
+
+        return $users;
     }
 
     /**
