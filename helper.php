@@ -323,3 +323,48 @@ function current_route($match)
 
     return strpos($currentRoute, $match) !== false;
 }
+
+/**
+ * Create hidden form method
+ *
+ * @param string $method
+ * 
+ * @return void
+ */
+function form_method($method)
+{
+    echo '<input type="hidden" name="_method" value="' . $method . '">';
+}
+
+/**
+ * Short echo
+ *
+ * @param mixed $str
+ * 
+ * @return void
+ */
+function __(&$str)
+{
+    echo empty($str) ? '' : $str;
+}
+
+/**
+ * Load script to footer
+ *
+ * @param array $scripts
+ * 
+ * @return void
+ */
+function script($scripts = array())
+{
+    $result = '';
+    
+    foreach ($scripts as $script) {
+        $script = preg_replace(array('/\./'), array('/'), $script);
+        $script = 'js/' . $script . '.js';
+
+        $result .= ('<script src="' . asset($script) . '"></script>' . "\n");
+    }
+
+    Flight::view()->set('scripts', $result);
+}

@@ -24,6 +24,7 @@ Flight::map(ADMIN_PREFIX, function () {
         Flight::route('POST /user/create', array(new UserController, 'adminCreate'));
         Flight::route('GET /user/@id', array(new UserController, 'edit'));
         Flight::route('PUT /user/@id', array(new UserController, 'update'));
+        Flight::route('DELETE /user/@id', array(new UserController, 'delete'));
     }
 });
 

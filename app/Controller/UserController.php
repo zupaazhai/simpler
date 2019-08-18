@@ -38,8 +38,9 @@ class UserController extends Controller
         );
 
         view('user.index', $data, 'content');
+        script(array('user.index'));
 
-        return layout('app', array(), '');
+        return layout('app');
     }
 
     /**
@@ -62,6 +63,11 @@ class UserController extends Controller
     public function adminCreate()
     {
         $this->logedInTo = '/user';
+
+        flash('status', array(
+            'status' => 'success',
+            'message' => 'Create user success',
+        ));
 
         return $this->create();
     }
@@ -91,6 +97,13 @@ class UserController extends Controller
         return layout('app', array(), '');
     }
 
+    /**
+     * Update user
+     *
+     * @param string $id
+     * 
+     * @return \Flight
+     */
     public function update($id)
     {
         $req = put();
@@ -134,6 +147,11 @@ class UserController extends Controller
 
             return back($req);
         }
+
+        flash('status', array(
+            'status' => 'success',
+            'message' => 'Update user success',
+        ));
 
         unbind('errors');
         return back();
@@ -249,6 +267,25 @@ class UserController extends Controller
 
         unbind('errors');
         return $this->redirectAfterCreated();
+    }
+
+    /**
+     * Delete user
+     *
+     * @param int $id
+     * 
+     * @return \Flight
+     */
+    public function delete($id)
+    {
+        $this->user->delete('id', $id);
+
+        flash('status', array(
+            'status' => 'success',
+            'message' => 'Delete user success',
+        ));
+
+        return back();
     }
 
     /**

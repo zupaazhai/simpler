@@ -168,6 +168,32 @@ class User
     }
 
     /**
+     * Delete user
+     *
+     * @param string $findKey
+     * @param mixed $findValue
+     * 
+     * @return \Flight
+     */
+    public function delete($findKey, $findValue)
+    {
+        $saveUsers = array();
+        $users = $this->findAll();
+
+        foreach ($users as $user) {
+            if ($user[$findKey] == $findValue) {
+                continue;
+            }
+
+            $saveUsers[] = $user;
+        }
+
+        $this->storeFile($saveUsers);
+
+        return back();
+    }
+
+    /**
      * Delete all user
      *
      * @return array
