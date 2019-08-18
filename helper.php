@@ -109,6 +109,23 @@ function post()
 }
 
 /**
+ * Get put request
+ *
+ * @return array
+ */
+function put()
+{
+    if (!is_request('put')) {
+        return array();
+    }
+
+    $request = Flight::request()->data->getData();
+    unset($request['_method']);
+
+    return $request;
+}
+
+/**
  * Redirect back
  *
  * @param mixed $withData
@@ -276,4 +293,33 @@ function partial($path)
     $path = $path . '.php';
 
     include(VIEW_DIR . 'partials' . DS . $path);
+}
+
+/**
+ * Include view
+ *
+ * @param string $path
+ * 
+ * @return void
+ */
+function inc($path, $data = array())
+{
+    $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
+    $path = $path . '.php';
+
+    require(VIEW_DIR . $path);
+}
+
+/**
+ * Check current route
+ *
+ * @param string $match
+ * 
+ * @return boolean
+ */
+function current_route($match)
+{
+    $currentRoute = Flight::request()->url;
+
+    return strpos($currentRoute, $match) !== false;
 }
