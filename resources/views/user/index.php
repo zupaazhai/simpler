@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-bordered">
+                        <table id="user-table" class="table table-bordered">
                             <thead>
                                 <tr>
                                     <th style="width: 3%">#</th>
@@ -43,8 +43,8 @@
                                     <td><?php echo $user['email'] ?></td>
                                     <td><?php __(format_date($user['created_at'])) ?></td>
                                     <td>
-                                        <button data-target="#delete-form-<?php __($user['id']) ?>" class="delete-btn btn btn-danger"><i class="fas fa-trash"></i></button>
-                                        <form id="delete-form-<?php __($user['id']) ?>" action="/user/<?php __($user['id']) ?>" method="post">
+                                        <button @click="onClickDelete('<?php __($user['id']) ?>')" class="delete-btn btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <form ref="deleteForm<?php __($user['id']) ?>" id="delete-form-<?php __($user['id']) ?>" action="/user/<?php __($user['id']) ?>" method="post">
                                             <?php form_method('delete') ?>
                                         </form>
                                     </td>

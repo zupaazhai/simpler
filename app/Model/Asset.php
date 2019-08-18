@@ -48,11 +48,11 @@ class Asset
         $saveAsset['created_user_id'] = $user['id'];
         $saveAsset['updated_user_id'] = $user['id'];
 
-        $this->db->create($saveAsset);
+        $createdAsset = $this->db->create($saveAsset);
 
         $this->createFile($asset['name'], $asset['content']);
 
-        return $asset;
+        return $createdAsset;
     }
 
     /**
@@ -104,6 +104,33 @@ class Asset
         $filename = $this->assetDir . $name;
 
         file_put_contents($filename, $content);
+    }
+
+    /**
+     * Delete asset by id
+     *
+     * @param string $id
+     * 
+     * @return boolean
+     */
+    public function delete($id)
+    {
+        $asset = $this->db->findById($id);
+
+        if (!$asset) {
+            return false;
+        }
+
+        $this->db->delete($id);
+        $file = $this->assetDir . $asset['name'];
+
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        unlink($file);
+
+        return true;
     }
 
     /**

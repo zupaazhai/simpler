@@ -38,7 +38,10 @@ class UserController extends Controller
         );
 
         view('user.index', $data, 'content');
-        script(array('user.index'));
+        script(array(
+            'vue',
+            'user.index'
+        ));
 
         return layout('app');
     }

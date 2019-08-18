@@ -37,16 +37,20 @@ class DB
      */
     public function create($data = array())
     {
-        $saveData = json_encode($data);
         $uid = $this->uid();
+        $data['id'] = $uid;
+        $saveData = json_encode($data);
         $filepath = $this->dbPath . DS . $uid; 
         $path = file_put_contents($filepath, $saveData);
-
-        $data['id'] = $path;
 
         return $data;
     }
 
+    /**
+     * Get all
+     *
+     * @return array
+     */
     public function all()
     {
         $files = scandir($this->dbPath);
@@ -58,10 +62,48 @@ class DB
             }
 
             $content = file_get_contents($this->dbPath . DS . $file);
-            $result[] = json_decode($content, true);
+            $content = json_decode($content, true);
+            $result[] = $content;
         }
 
         return $result;
+    }
+
+    /**
+     * Find by id
+     *
+     * @param string $id
+     * 
+     * @return mixed
+     */
+    public function findById($id)
+    {
+        $file = $this->dbPath . DS . $id;
+
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        $content = file_get_contents($file);
+        $content = json_decode($content, true);
+
+        return $content;
+    }
+
+    /**
+     * Delete by id
+     *
+     * @param string $id
+     * 
+     * @return void
+     */
+    public function delete($id)
+    {
+        $path = $this->dbPath . DS . $id;
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
     }
 
     /**

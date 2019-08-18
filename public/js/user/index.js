@@ -1,14 +1,17 @@
-(function($, bb) {
+var userTable = new Vue({
+    el: '#user-table',
 
-    $('.delete-btn').on('click', function (e) {
-        var $btn = $(e.currentTarget)
-        bb.confirm('Are you sure to delete?', function (result) {
-            if (!result) {
-                return
-            }
-
-            $($btn.data('target')).submit()
-        })
-    })
-
-})(jQuery, bootbox)
+    methods: {
+        onClickDelete: function (id) {
+            var self = this 
+            bootbox.confirm('Are you sure to delete user?', function (res) {
+                if (!res) {
+                    return
+                }
+                
+                var form = self.$refs['deleteForm' + id]
+                form.submit()
+            })
+        }
+    }
+})
