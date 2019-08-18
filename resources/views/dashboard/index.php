@@ -1,60 +1,9 @@
-<div class="wrapper">
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <ul class="navbar-nav ml-auto">
-            <li>
-                <form action="/logout" method="post">
-                    <button class="btn">Log out</button>
-                </form>
-            </li>
-        </ul>
-    </nav>
-
-    <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="../index3.html" class="brand-link text-center">
-            <span class="brand-text font-weight"><?php echo config('APP_NAME') ?></span>
-        </a>
-
-        <div class="sidebar">
-            <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item has-treeview">
-                        <a href="" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="" class="nav-link">
-                            <i class="nav-icon fas fa-file"></i>
-                            <p>
-                                Page
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="" class="nav-link">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>
-                                User
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item has-treeview">
-                        <a href="" class="nav-link">
-                            <i class="nav-icon fas fa-cog"></i>
-                            <p>
-                                Setting
-                            </p>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+<div>
+    <div class="content-header">
+        <div class="row">
+            <div class="col-12">
+                <h1>Dashboard</h1>
+            </div>
         </div>
-    </aside>
-
-    <div class="content-wrapper">
-
     </div>
 </div>

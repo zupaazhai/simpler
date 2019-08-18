@@ -10,15 +10,8 @@
     <title><?php echo empty($title) ? '' : $title ?></title>
 </head>
 <body class="layout-fixed hold-transition <?php echo empty($bodyClass) ? '' : $bodyClass ?>" style="height: auto;">
-    
-    <div class="wrapper">
-        <?php partial('nav') ?>
-        <?php partial('sidebar') ?>
 
-        <div class="content-wrapper">
-            <?php echo $content ?>
-        </div>
-    </div>
+    <?php echo $content ?>
 
     <script src="<?php echo asset('js/jquery.min.js') ?>"></script>
     <script src="<?php echo asset('js/bootstrap.min.js') ?>"></script>
