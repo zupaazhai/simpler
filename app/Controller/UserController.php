@@ -35,7 +35,7 @@ class UserController extends Controller
         $view = $isNoBody ? 'auth.register' : 'auth.login';
         view($view, array('title' => $isNoBody ? 'Register' : 'Login'), 'content');
 
-        return layout('app', array(), '');
+        return layout('auth', array(), '');
     }
 
     /**
