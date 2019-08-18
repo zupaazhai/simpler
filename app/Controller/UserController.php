@@ -19,8 +19,8 @@ class UserController extends Controller
     public function __construct()
     {
         $this->user = new User;
-        $this->logedInTo = FALLBACK_REDIRECT;
-        $this->loggedOutTo = FALLBACK_REDIRECT;
+        $this->logedInTo = config('FALLBACK_REDIRECT');
+        $this->loggedOutTo = config('FALLBACK_REDIRECT');
     }
 
     /**

@@ -35,6 +35,20 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php foreach ($assets as $index => $asset): ?>
+                                <tr>
+                                    <td>
+                                        <?php __(++$index) ?>
+                                    </td>
+                                    <td><?php __($asset['name']) ?></td>
+                                    <td><?php __($asset['type']) ?></td>
+                                    <td><?php __(format_date($asset['created_at'])) ?></td>
+                                    <td><?php __(format_date($asset['updated_at'])) ?></td>
+                                    <td>
+                                        <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?> 
                                 <?php if (empty($assets)): ?>
                                 <tr>
                                     <td colspan="6">No asset found</td>

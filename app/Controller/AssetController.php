@@ -19,15 +19,7 @@ class AssetController
      */
     public function index()
     {
-        $asset = $this->asset->create(array(
-            'name' => 'app.js',
-            'type' => 'js',
-            'position' => 'bottom',
-            'content' => 'This is content'
-        ));
-
-        dump($asset);
-        die;
+        $assets = $this->asset->findAll();
 
         $data = array(
             'title' => 'Asset',

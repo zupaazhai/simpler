@@ -13,7 +13,7 @@ function view($path, array $data = array(), $layout = null)
     $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
     $path = $path . '.php';
     
-    return Flight::render(VIEW_DIR . $path, $data, $layout);
+    return Flight::render(config('VIEW_DIR') . $path, $data, $layout);
 }
 
 /**
@@ -30,7 +30,7 @@ function layout($path, array $data = array(), $layout = null)
     $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
     $path = $path . '.php';
 
-    return Flight::render(VIEW_DIR . 'layouts' . DS . $path, $data);
+    return Flight::render(config('VIEW_DIR') . 'layouts' . DS . $path, $data);
 }
 
 /**
@@ -42,7 +42,7 @@ function layout($path, array $data = array(), $layout = null)
  */
 function asset($path = '')
 {
-    return '/' . PUBLIC_DIR . '/' . $path;
+    return '/' . config('PUBLIC_DIR') . '/' . $path;
 }
 
 /**
@@ -292,7 +292,7 @@ function partial($path)
     $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
     $path = $path . '.php';
 
-    include(VIEW_DIR . 'partials' . DS . $path);
+    include(config('VIEW_DIR') . 'partials' . DS . $path);
 }
 
 /**
@@ -307,7 +307,7 @@ function inc($path, $data = array())
     $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
     $path = $path . '.php';
 
-    require(VIEW_DIR . $path);
+    require(config('VIEW_DIR') . $path);
 }
 
 /**

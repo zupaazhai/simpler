@@ -29,8 +29,8 @@ class User
     {
         $this->fileCrypt = new FileCrypt;
 
-        $this->userFile = USER_FILE_KEY;
-        $this->passpharse = USER_PASSPHARSE;
+        $this->userFile = config('USER_FILE_KEY');
+        $this->passpharse = config('USER_PASSPHARSE');
 
         $this->sessionKey = 'user';
     }
@@ -354,5 +354,11 @@ class User
     private function password($password)
     {
         return sha1($password);
+    }
+
+    public static function auth()
+    {
+        $user  = new self;
+        return $user->current();
     }
 }
