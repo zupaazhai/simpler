@@ -19,6 +19,11 @@ Flight::before(ADMIN_PREFIX, function (&$params, &$output) {
 Flight::map(ADMIN_PREFIX, function () {
     if (UserController::loggedIn()) {
         Flight::route('/dashboard', array(new DashboardController, 'index'));
+        Flight::route('/user', array(new UserController, 'index'));
+        Flight::route('GET /user/create', array(new UserController, 'createForm'));
+        Flight::route('POST /user/create', array(new UserController, 'adminCreate'));
+        Flight::route('GET /user/@id', array(new UserController, 'edit'));
+        Flight::route('PUT /user/@id', array(new UserController, 'update'));
     }
 });
 

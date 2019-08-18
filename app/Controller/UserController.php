@@ -24,6 +24,122 @@ class UserController extends Controller
     }
 
     /**
+     * List of user
+     *
+     * @return \Flight
+     */
+    public function index()
+    {
+        $users = $this->user->findAll();
+
+        $data = array(
+            'title' => 'User',
+            'users' => $users
+        );
+
+        view('user.index', $data, 'content');
+
+        return layout('app', array(), '');
+    }
+
+    /**
+     * Create user form
+     *
+     * @return \Flight
+     */
+    public function createForm()
+    {
+        view('user.create', array('title' => 'New user'), 'content');
+
+        return layout('app', array(), '');
+    }
+
+    /**
+     * Admin create new user
+     *
+     * @return \Flight
+     */
+    public function adminCreate()
+    {
+        $this->logedInTo = '/user';
+
+        return $this->create();
+    }
+
+    /**
+     * Edit user
+     *
+     * @param string $id
+     * 
+     * @return \Flight
+     */
+    public function edit($id)
+    {
+        $user = $this->user->findOne('id', $id);
+
+        if (!$user) {
+            Flight::redirect('/user');
+        }
+
+        $data = array(
+            'title' => 'Edit user',
+            'user' => $user
+        );
+
+        view('user.edit', $data, 'content');
+
+        return layout('app', array(), '');
+    }
+
+    public function update($id)
+    {
+        $req = put();
+        $errors = array();
+
+        if (empty($req['username'])) {
+            $errors['username'] = 'User is required';
+        }
+
+        if (
+            (!empty($req['password']) && !empty($req['confirm_password'])) && 
+            ($req['password'] !== $req['confirm_password'])
+        ) {
+            $errors['confirm_password'] = 'Password and Confirm password not match';
+        }
+
+        if (empty($req['email'])) {
+            $errors['email'] = 'Email is required';
+        }
+
+        if ($errors) {
+            flash('errors', $errors);
+            return back();
+        }
+
+        try {
+            $this->user->edit('id', $id, $req);
+
+        } catch (UserExistsException $e) {
+            
+            flash('errors', array(
+                'username' => $e->getMessage()
+            ));
+
+            return back($req);
+        } catch (UserEmailExistsException $e) {
+
+            flash('errors', array(
+                'email' => $e->getMessage()
+            ));
+
+            return back($req);
+        }
+
+        unbind('errors');
+        return back();
+    }
+
+    /**
      * Login form
      *
      * @return \Flight

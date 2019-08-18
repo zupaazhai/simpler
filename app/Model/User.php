@@ -86,11 +86,39 @@ class User
             return false;
         }
 
+        $users = $this->findAll();
+
+        $filterMeOut = array_filter($users, function ($current) use ($findValue, $user) {
+            return ($current['id'] != $findValue);
+        });
+
+        $usernameExists = array_filter($filterMeOut, function ($current) use ($data) {
+            return $current['username'] == $data['username'];
+        });
+
+        if (!empty($usernameExists)) {
+            throw new UserExistsException();
+        }
+
+        $emailExists = array_filter($filterMeOut, function ($current) use ($data) {
+            return $current['email'] == $data['email'];
+        });
+
+        if (!empty($emailExists)) {
+            throw new UserEmailExistsException();
+        }
+
         unset($data['id']);
 
         if (!empty($data['password'])) {
             $data['password'] = $this->password($data['password']);
         }
+
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        unset($data['confirm_password']);
 
         $user = array_merge($user, $data);
         $userIndex = $this->findIndex($findKey, $findValue);

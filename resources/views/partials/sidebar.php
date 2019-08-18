@@ -7,7 +7,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item has-treeview">
-                    <a href="" class="nav-link">
+                    <a href="/dashboard" class="nav-link <?php echo current_route('/dashboard') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -23,7 +23,7 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="" class="nav-link">
+                    <a href="/user" class="nav-link <?php echo current_route('/user') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User
