@@ -20,6 +20,8 @@ var assetForm = new Vue({
                 matchBrackets: true,
                 mode: window.type == 'js' ? 'javascript' : 'css'
             })
+
+            self.editor.setSize(null, 600)
         })
     }
 })
