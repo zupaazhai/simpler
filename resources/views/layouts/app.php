@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="<?php echo asset('css/adminlte.min.css') ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     <link rel="stylesheet" href="<?php echo asset('css/toastr.min.css') ?>">
+    <?php echo !empty($styles) ? $styles : '' ?>
     <link rel="stylesheet" href="<?php echo asset('css/app.css') ?>">
     <title><?php echo empty($title) ? '' : $title ?></title>
 </head>

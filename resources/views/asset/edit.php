@@ -10,7 +10,7 @@
 
 <section class="content">
     <div class="container-fluid">
-        <form action="/asset/<?php __($asset['id']) ?>" method="post">
+        <form id="asset-form" action="/asset/<?php __($asset['id']) ?>" method="post">
             <?php echo form_method('put') ?>
             <div class="row">
                 <div class="col-md-8">
@@ -19,7 +19,7 @@
                             <div class="card-title">Content</div>
                         </div>
                         <div class="card-body">
-                            <textarea class="form-control" name="content" id="" cols="30" rows="10"><?php __($asset['content']) ?></textarea>
+                            <textarea ref="contentEditor" class="form-control" name="content" id="" cols="30" rows="10"><?php __($asset['content']) ?></textarea>
                         </div>
                     </div>
                 </div>   

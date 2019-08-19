@@ -39,6 +39,8 @@ class Asset
     {
         $saveAsset = array_only($asset, $this->fillable);
 
+        $asset['name'] = $this->parseFileName($asset['name']);
+        
         if ($this->isFileExist($asset['name'])) {
             throw new AssetFileExistException();
         }
@@ -116,7 +118,6 @@ class Asset
      */
     public function update($id, $asset)
     {
-
         $savedAsset = $this->findById($id);
 
         if ($savedAsset['name'] != $asset['name']) {

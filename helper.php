@@ -355,9 +355,27 @@ function __(&$str)
  * 
  * @return void
  */
-function script($scripts = array())
+function script($scripts = array(), $jsData = array())
 {
     $result = '';
+
+    if (!empty($jsData)) {
+        $result .= "<script>\n";
+        foreach ($jsData as $key => $value) {
+            $jsValue = '';
+
+            if (is_array($value)) {
+                $jsValue = json_encode($value);
+            }
+
+            if (is_string($value)) {
+                $jsValue = "'" . $value . "'";
+            }
+
+            $result .= "window.{$key} = " . $jsValue;
+        }
+        $result .= "</script>\n";
+    }
     
     foreach ($scripts as $script) {
         $script = preg_replace(array('/\./'), array('/'), $script);
@@ -367,6 +385,27 @@ function script($scripts = array())
     }
 
     Flight::view()->set('scripts', $result);
+}
+
+/**
+ * Load style to header
+ *
+ * @param array $styles
+ * 
+ * @return void
+ */
+function style($styles = array())
+{
+    $result = '';
+    
+    foreach ($styles as $style) {
+        $style = preg_replace(array('/\./'), array('/'), $style);
+        $style = 'css/' . $style . '.css';
+    
+        $result .= ('<link rel="stylesheet" href="' . asset($style) . '">' . "\n");
+    }
+
+    Flight::view()->set('styles', $result);
 }
 
 /**

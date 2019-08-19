@@ -90,6 +90,17 @@ class AssetController
             'positions' => AssetEnum::$positions
         );
 
+        style(array('codemirror', 'codemirror-theme'));
+        
+        $jsData = array('type' => $asset['type']);
+        script(array(
+            'vue', 
+            'codemirror', 
+            'codemirror-javascript', 
+            'codemirror-css', 
+            'asset.edit'
+        ), $jsData);
+
         view('asset.edit', $data, 'content');
 
         return layout('app');
