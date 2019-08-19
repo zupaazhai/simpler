@@ -106,7 +106,20 @@ class AssetController
     {
         $req = put();
 
-        $result = $this->asset->update($id, $req);
+        try {
+
+            $result = $this->asset->update($id, $req);
+
+        } catch (AssetFileExistException $e) {
+
+            flash('status', array(
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ));
+
+            return back();
+        }
+
 
         if (!$result) {
             flash('status', array(

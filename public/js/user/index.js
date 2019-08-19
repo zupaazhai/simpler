@@ -4,7 +4,7 @@ var userTable = new Vue({
     methods: {
         onClickDelete: function (id) {
             var self = this 
-            bootbox.confirm('Are you sure to delete user?', function (res) {
+            bootbox.confirm('Are you sure to delete this user?', function (res) {
                 if (!res) {
                     return
                 }

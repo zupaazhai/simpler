@@ -77,7 +77,7 @@ var assetTable = new Vue({
     methods: {
         onClickDelete: function (id) {
             var self = this
-            bootbox.confirm('Are you sure to delete', function (res) {
+            bootbox.confirm('Are you sure to delete this asset?', function (res) {
                 if (!res) {
                     return
                 }

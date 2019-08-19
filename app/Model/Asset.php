@@ -44,6 +44,7 @@ class Asset
         }
 
         $user = User::auth();
+        $saveAsset['name'] = $this->parseFileName($saveAsset['name']);
         $saveAsset['created_user_id'] = $user['id'];
         $saveAsset['updated_user_id'] = $user['id'];
 
@@ -115,9 +116,21 @@ class Asset
      */
     public function update($id, $asset)
     {
+
+        $savedAsset = $this->findById($id);
+
+        if ($savedAsset['name'] != $asset['name']) {
+            $file = $this->assetDir . $asset['name'];
+            
+            if (file_exists($file)) {
+                throw new AssetFileExistException();
+            }            
+        }
+
         $saveAsset = array_only($asset, $this->fillable);
         
         $user = User::auth();
+        $saveAsset['name'] = $this->parseFileName($saveAsset['name']);
         $saveAsset['updated_user_id'] = $user['id'];
 
         $file = $this->assetDir . $asset['name'];
@@ -206,4 +219,25 @@ class Asset
             unlink($this->assetDir . $file);
         }
     }
+
+    /**
+     * Parse file name
+     *
+     * @param string $filename
+     * 
+     * @return string
+     */
+    private function parseFileName($filename)
+    {
+        $fileinfo = pathinfo($filename);
+        $ext = '.' . $fileinfo['extension'];
+
+        if (!in_array($fileinfo['extension'], array('js', 'css'))) {
+            $ext = '';
+        }
+
+        $filename = str_replace('.', '-', $fileinfo['filename']);
+
+        return $filename . $ext;
+    } 
 }

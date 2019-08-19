@@ -27,7 +27,7 @@
                     <div class="card">
                         <input name="_method" value="put" type="hidden">
                         <div class="card-header">
-                            <h3 class="card-title">Edit asset "<?php echo $asset['name'] ?>"</h3>
+                            <h3 class="card-title">File: <?php echo $asset['name'] ?></h3>
                         </div> 
                         <div class="card-body">
                             <div class="form-group">

@@ -16,7 +16,7 @@
                     <form action="/user/<?php echo $user['id'] ?>" method="post">
                         <input name="_method" value="put" type="hidden">
                         <div class="card-header">
-                            <h3 class="card-title">Edit user "<?php echo $user['username'] ?>"</h3>
+                            <h3 class="card-title">Edit user: <?php echo $user['username'] ?></h3>
                         </div> 
                         <div class="card-body">
                             <?php inc('user.form', array('user' => $user)) ?>
