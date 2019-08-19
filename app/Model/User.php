@@ -160,7 +160,13 @@ class User
 
         $user = array_shift($users);
 
-        return empty($user) ? false : $user;
+        if (empty($user)) {
+            return false;
+        }
+
+        unset($user['password']);
+
+        return $user;
     }
     
     /**

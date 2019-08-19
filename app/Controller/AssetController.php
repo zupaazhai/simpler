@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Enum\AssetEnum;
 use App\Exception\AssetFileExistException;
 use App\Model\Asset;
 use Flight;
@@ -67,8 +68,60 @@ class AssetController
         }
     }
 
+    /**
+     * Edit asset file
+     *
+     * @param string $id
+     * 
+     * @return \Flight
+     */
     public function edit($id)
     {
+        $asset = $this->asset->findById($id);
+
+        if (!$asset) {
+            return Flight::redirect('/asset');
+        }
+
+        $data = array(
+            'asset' => $asset,
+            'types' => AssetEnum::$types,
+            'positions' => AssetEnum::$positions
+        );
+
+        view('asset.edit', $data, 'content');
+
+        return layout('app');
+    }
+
+    /**
+     * Update asset
+     *
+     * @param string $id
+     * 
+     * @return \Flight
+     */
+    public function update($id)
+    {
+        $req = put();
+
+        $result = $this->asset->update($id, $req);
+
+        if (!$result) {
+            flash('status', array(
+                'status' => 'error',
+                'message' => 'Update asset fail'
+            ));
+
+            return back();
+        }
+
+        flash('status', array(
+            'status' => 'success',
+            'message' => 'Update asset success'
+        ));
+
+        return back();
     }
 
     /**

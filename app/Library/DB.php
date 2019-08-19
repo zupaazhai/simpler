@@ -91,6 +91,30 @@ class DB
     }
 
     /**
+     * Update to db
+     *
+     * @param string $id
+     * @param array $data
+     * 
+     * @return array
+     */
+    public function update($id, $data = array())
+    {
+        $file = $this->dbPath . DS . $id;
+
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        $data['id'] = $id;
+        $saveData = json_encode($data);
+        
+        file_put_contents($file, $saveData);
+
+        return $this->findById($id);
+    }
+
+    /**
      * Delete by id
      *
      * @param string $id

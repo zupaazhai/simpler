@@ -11,6 +11,7 @@ class Asset
         'name',
         'type',
         'position',
+        'content',
         'created_at',
         'updated_at'
     );
@@ -19,11 +20,14 @@ class Asset
 
     protected $assetDir;
 
+    protected $user;
+
     public function __construct()
     {
         $db = new DB;
         $this->db = $db->setName('assets');
         $this->assetDir = config('ASSET_DIR');
+        $this->user = new User;
     }
 
     /**
@@ -73,6 +77,61 @@ class Asset
         }
 
         return $result;
+    }
+
+    /**
+     * Find asset by id
+     *
+     * @param string $id
+     * 
+     * @return mixed
+     */
+    public function findById($id)
+    {
+        $asset = $this->db->findById($id);
+
+        if (empty($asset)) {
+            return false;
+        }
+
+        $asset['content'] = '';
+
+        $assetFile = $this->assetDir . $asset['name'];
+
+        if (file_exists($assetFile)) {
+            $asset['content'] = file_get_contents($assetFile);
+        }
+
+        $asset['created_user'] = $this->user->findOne('id', $asset['created_user_id']);
+        $asset['updated_user'] = $this->user->findOne('id', $asset['updated_user_id']);
+
+        return $asset;
+    }
+
+    /**
+     * Update asset content
+     *
+     * @param string $id
+     * @param array $asset
+     * 
+     * @return array
+     */
+    public function update($id, $asset)
+    {
+        $saveAsset = array_only($asset, $this->fillable);
+        
+        $user = User::auth();
+        $saveAsset['created_user_id'] = $user['id'];
+        $saveAsset['updated_user_id'] = $user['id'];
+
+        $file = $this->assetDir . $asset['name'];
+
+        if (file_exists($file)) {
+            $this->db->update($id, $saveAsset);
+            file_put_contents($file, $saveAsset['content']);
+        }
+
+        return $saveAsset;
     }
 
     /**
