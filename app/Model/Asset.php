@@ -11,9 +11,7 @@ class Asset
         'name',
         'type',
         'position',
-        'content',
-        'created_at',
-        'updated_at'
+        'content'
     );
 
     protected $db;
@@ -39,9 +37,6 @@ class Asset
      */
     public function create($asset)
     {
-        $asset['created_at'] = time();
-        $asset['updated_at'] = time();
-
         $saveAsset = array_only($asset, $this->fillable);
 
         if ($this->isFileExist($asset['name'])) {
@@ -73,6 +68,8 @@ class Asset
             $file = $this->assetDir . $asset['name'];
             $content = file_exists($file) ? file_get_contents($file) : ''; 
             $asset['content'] = $content;
+            $asset['created_user'] = $this->user->findOne('id', $asset['created_user_id']);
+            $asset['updated_user'] = $this->user->findOne('id', $asset['updated_user_id']);
             $result[] = $asset;
         }
 
@@ -121,7 +118,6 @@ class Asset
         $saveAsset = array_only($asset, $this->fillable);
         
         $user = User::auth();
-        $saveAsset['created_user_id'] = $user['id'];
         $saveAsset['updated_user_id'] = $user['id'];
 
         $file = $this->assetDir . $asset['name'];
@@ -203,7 +199,7 @@ class Asset
         $files = scandir($this->assetDir);
 
         foreach ($files as $file) {
-            if (in_array($file, array('.', '..'))) {
+            if (in_array($file, array('.', '..', 'index.php', '.htaccess'))) {
                 continue;
             }
 

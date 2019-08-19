@@ -38,10 +38,15 @@ class DB
     public function create($data = array())
     {
         $uid = $this->uid();
+
         $data['id'] = $uid;
+        $data['created_at'] = time();
+        $data['updated_at'] = time();
+
         $saveData = json_encode($data);
-        $filepath = $this->dbPath . DS . $uid; 
-        $path = file_put_contents($filepath, $saveData);
+        $filepath = $this->dbPath . DS . $uid;
+
+        file_put_contents($filepath, $saveData);
 
         return $data;
     }
@@ -106,10 +111,13 @@ class DB
             return false;
         }
 
-        $data['id'] = $id;
-        $saveData = json_encode($data);
+        $savedData = $this->findById($id);
+        $savedData = array_merge($savedData, $data);
+        $savedData['updated_at'] = time();
+
+        $jsonData = json_encode($savedData);
         
-        file_put_contents($file, $saveData);
+        file_put_contents($file, $jsonData);
 
         return $this->findById($id);
     }

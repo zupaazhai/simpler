@@ -28,7 +28,7 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('DELETE /user/@id', array(new UserController, 'delete'));
 
         Flight::route('/asset', array(new AssetController, 'index'));
-        Flight::route('POST /asset/create', array(new AssetController, 'create'));
+        Flight::route('POST /asset/create', array(new AssetController, 'save'));
         Flight::route('GET /asset/@id', array(new AssetController, 'edit'));
         Flight::route('PUT /asset/@id', array(new AssetController, 'update'));
         Flight::route('DELETE /asset/@id', array(new AssetController, 'delete'));

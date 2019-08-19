@@ -46,7 +46,7 @@ class AssetController
      *
      * @return \Flight
      */
-    public function create()
+    public function save()
     {
         $req = Flight::request()->data->getData();
 
@@ -85,6 +85,7 @@ class AssetController
 
         $data = array(
             'asset' => $asset,
+            'title' => 'Edit ' . $asset['name'], 
             'types' => AssetEnum::$types,
             'positions' => AssetEnum::$positions
         );

@@ -1,4 +1,4 @@
 /vendor/
 /storage/
-/public/asset/*.js
-/public/asset/*.css
+/public/asset/*
+!/public/asset/index.php

@@ -29,7 +29,9 @@
                                     <th style="width: 3%">#</th>
                                     <th style="width: 20%">Name</th>
                                     <th>Type</th>
+                                    <th>Created By</th>
                                     <th>Created At</th>
+                                    <th>Updated By</th>
                                     <th>Updated At</th>
                                     <th style="width: 5%"></th>
                                 </tr>
@@ -47,7 +49,9 @@
                                         <a href="<?php __($id) ?>"><?php __($asset['name']) ?></a>
                                     </td>
                                     <td><?php __($asset['type']) ?></td>
+                                    <td><?php __($asset['created_user']['username']) ?></td>
                                     <td><?php __(format_date($asset['created_at'])) ?></td>
+                                    <td><?php __($asset['updated_user']['username']) ?></td>
                                     <td><?php __(format_date($asset['updated_at'])) ?></td>
                                     <td>
                                         <button @click="onClickDelete('<?php echo $asset['id'] ?>')" class="btn btn-danger"><i class="fas fa-trash"></i></button>
