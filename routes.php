@@ -3,6 +3,7 @@
 use App\Controller\AssetController;
 use App\Controller\UserController;
 use App\Controller\DashboardController;
+use App\Controller\MediaController;
 
 Flight::route('GET /login', array(new UserController, 'loginForm'));
 Flight::route('POST /login', array(new UserController, 'login'));
@@ -32,6 +33,8 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('GET /asset/@id', array(new AssetController, 'edit'));
         Flight::route('PUT /asset/@id', array(new AssetController, 'update'));
         Flight::route('DELETE /asset/@id', array(new AssetController, 'delete'));
+
+        Flight::route('/media', array(new MediaController, 'index'));
     }
 });
 

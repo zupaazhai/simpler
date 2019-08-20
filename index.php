@@ -8,8 +8,12 @@ define('APP_NAME', 'Simpler');
 
 define('VIEW_DIR', __DIR__ . DS . 'resources' . DS . 'views' . DS);
 define('PUBLIC_DIR', 'public');
+
 define('ASSET_DIR', __DIR__ . DS . PUBLIC_DIR . DS . 'asset' . DS);
 define('ASSET_URL', '/' . PUBLIC_DIR . '/asset/');
+
+define('MEDIA_DIR', __DIR__ . DS . PUBLIC_DIR . DS . 'media' . DS);
+define('MEDIA_URL', '/' . PUBLIC_DIR . '/media/');
 
 define('STORAGE_DIR', __DIR__ . DS . 'storage' . DS);
 define('DATA_DIR', STORAGE_DIR . 'data' . DS);
