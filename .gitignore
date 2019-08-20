@@ -2,4 +2,5 @@
 /storage/
 /public/asset/*
 !/public/asset/index.php
+/public/media/*
 !/public/media/index.php
