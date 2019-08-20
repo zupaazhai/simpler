@@ -26,7 +26,7 @@
                         </ul>
                     </div>
                 </div>
-                <a class="btn btn-block btn-primary mt-3" class="nav-link" href="">
+                <a @click.prevent="onClickNewFolder" class="btn btn-block btn-primary mt-3" class="nav-link" href="">
                     <i class="fas fa-folder-plus"></i> New folder
                 </a>
             </div>

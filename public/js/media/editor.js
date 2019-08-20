@@ -42,8 +42,28 @@ var mediaEditor = new Vue({
                     this.fileInDirs.push(files[filename])
                 }
             }
+        },
 
-            console.log(this.fileInDirs)
+        onClickNewFolder: function () {
+            var self = this
+            bootbox.prompt('Enter directory name', function (result) {
+                var isExist = self.checkDirName(result)
+
+                if (isExist) {
+                    toastr.error('Directory name is already use, please change')
+                    return false
+                }
+            })
+        },
+
+        checkDirName: function (newFolderName) {
+            var names = []
+
+            for (var dir in this.dirs()) {
+                names.push(this.dirs()[dir].name)
+            }
+
+            return names.indexOf(newFolderName) > -1
         }
     }
 })
