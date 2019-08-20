@@ -24,6 +24,18 @@ class MediaController
             'title' => 'Media'
         );
 
+        $files = $this->media->findAllRecursive();
+        $data = array();
+
+        style(array(
+            'media'
+        ));
+
+        script(array(
+            'vue',
+            'media.editor'
+        ), array('files' => $files));
+        
         view('media.index', $data, 'content');
 
         return layout('app');
