@@ -419,3 +419,29 @@ function format_date($timestamp)
 {
     return date('Y-m-d H:i:s', $timestamp);
 }
+
+/**
+ * Make slugify
+ * 
+ * this original code from user "leoap" in stackoverflow forum
+ * 
+ * https://stackoverflow.com/questions/2955251/php-function-to-make-slug-url-string
+ *
+ * @param [type] $text
+ * @return void
+ */
+function slugify($text)
+{
+    $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    $text = preg_replace('~[^-\w]+~', '', $text);
+    $text = trim($text, '-');
+    $text = preg_replace('~-+~', '-', $text);
+    $text = strtolower($text);
+
+    if (empty($text)) {
+        return 'n-a';
+    }
+
+    return $text;
+}

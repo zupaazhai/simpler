@@ -18,9 +18,14 @@
                     </div>
                     <div class="card-body p-0">
                         <ul class="nav nav-pills flex-column">
-                            <li v-cloak v-for="(dir, index) in dirs()" class="nav-item p-2">
-                                <a @click.prevent="onClickDir(dir.name, index)" :class="{'nav-link': true, 'active': dir.is_active}" href="">
-                                    <i class="far fa-folder"></i> {{ dir.name }}
+                            <li v-cloak v-for="(dir, index) in dirs" class="nav-item p-2">
+                                <a @click.prevent="onClickDir(index)" :class="{'nav-link d-flex': true, 'active': dir.is_active}" href="">
+                                    <span class="flex-fill">
+                                        <i class="far fa-folder"></i> {{ dir.name }}
+                                    </span>
+                                    <span @click="onClickDeleteDir(index)" class='flex-fill text-right'>
+                                        <i class="fas fa-trash"></i>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
@@ -35,7 +40,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Files</h3>
                     </div>
-                    <div class="card-body media-editor-body">
+                    <div :class="{'card-body media-editor-body': true, 'has-loading': hasLoading}">
                         <ul v-if="fileInDirs" class="mailbox-attachments align-items-stretch clearfix">
                             <li v-for="file in fileInDirs">
                                 <span class="mailbox-attachment-icon">

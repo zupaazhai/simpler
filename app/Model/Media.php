@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use App\Enum\MediaEnum;
+use App\Exception\MediaFileExistException;
 
 class Media
 {
@@ -34,7 +35,8 @@ class Media
 
             $result[] = array(
                 'name' => $file,
-                'type' => is_dir($this->basePath . $file) ? MediaEnum::DIR : MediaEnum::FILE
+                'type' => is_dir($this->basePath . $file) ? MediaEnum::DIR : MediaEnum::FILE,
+                'is_active' => false
             );
         }
 
@@ -103,10 +105,23 @@ class Media
     public function findDirList()
     {
         $files = $this->findAll();
+        $result = array(
+            array(
+                'name' => '/',
+                'type' => MediaEnum::DIR,
+                'is_active' => true
+            )
+        );
 
-        return array_filter($files, function ($file) {
-            return $file['type']  == MediaEnum::DIR;
-        });
+        foreach ($files as $file) {
+            if ($file['type']  !== MediaEnum::DIR) {
+                continue;
+            }
+
+            $result[] = $file;
+        }
+
+        return $result;
     }
 
     /**
@@ -119,9 +134,37 @@ class Media
     public function findFileList($path = 'root')
     {
         $files = $this->findAll($path);
+        $result = array();
 
-        return array_filter($files, function ($file) {
-            return $file['type']  == MediaEnum::FILE;
-        });
+        foreach ($files as $file) {
+            if ($file['type']  !== MediaEnum::FILE) {
+                continue;
+            }
+
+            $result[] = $file;
+        }
+
+        return $result;
     }
+
+    /**
+     * Create new directory
+     *
+     * @param string $name
+     * 
+     * @return string
+     */
+    public function createDir($name)
+    {
+        $name = slugify($name);
+        $path = $this->basePath . $name;
+
+        if (is_dir($path) || file_exists($path)) {
+            throw new MediaFileExistException();
+        }
+
+        mkdir($path);
+
+        return $name;
+    } 
 }

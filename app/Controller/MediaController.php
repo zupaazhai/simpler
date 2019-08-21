@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Media;
+use Flight;
 
 class MediaController
 {
@@ -24,20 +25,78 @@ class MediaController
             'title' => 'Media'
         );
 
-        $files = $this->media->findAllRecursive();
-        $data = array();
-
         style(array(
             'media'
         ));
 
         script(array(
             'vue',
+            'axios',
             'media.editor'
-        ), array('files' => $files));
+        ), array(
+            'url' => array(
+                'dirs' => '/media/dirs',
+                'files' => '/media/files'
+            )
+        ));
         
         view('media.index', $data, 'content');
 
         return layout('app');
+    }
+
+    /**
+     * Get dirs
+     *
+     * @return \Flight
+     */
+    public function dirs()
+    {
+        $files = $this->media->findDirList();
+
+        return Flight::json(array(
+            'data' => array(
+                'files' => $files,
+            ),
+            'message' => 'get_dirs'
+        ), 200);
+    }
+
+    public function createDir()
+    {
+        $req = post();
+
+        if (empty($req['directory'])) {
+            return Flight::json(array(
+                'message' => 'directory_is_required'
+            ), 422);
+        }
+
+        try {
+            $this->media->createDir($req['directory']);
+        } catch (\Exception $e) {
+            return Flight::json(array(
+                'message' => $e->getMessage()
+            ), 500);
+        }
+    }
+
+    /**
+     * Get file in directory
+     *
+     * @return \Flight
+     */
+    public function files()
+    {
+        $req = post();
+
+        $files = $this->media->findFileList(!empty($req['directory']) ? $req['directory'] : 'root');
+
+        return Flight::json(array(
+            'data' => array(
+                'files' => $files,
+            ),
+            'message' => 'get_files'
+        ), 200);
     }
 }
