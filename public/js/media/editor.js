@@ -86,8 +86,29 @@ var mediaEditor = new Vue({
 
         onClickDeleteDir: function (index) {
 
-            bootbox.confirm('Are you sure to delete this folder and all files?', function () {
-                
+            var self = this
+
+            bootbox.confirm('Are you sure to delete this folder and all files?', function (result) {
+                if (!result) {
+                    return true
+                }
+
+                self.deleteDir(self.dirs[index].name)
+            })
+        },
+
+        deleteDir: function (name) {
+
+            var self = this
+
+            axios.delete(window.url.dirs + '/' + name)
+            .then(function (res) {
+                self.fetchDir()
+                toastr.success('Folder ' + name + ' delete sucess')
+            })
+            .catch(function (err) {
+                console.log(err)
+                toastr.error('Folder ' + name + ' delete fail')
             })
         },
 

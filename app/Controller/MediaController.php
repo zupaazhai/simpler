@@ -62,6 +62,11 @@ class MediaController
         ), 200);
     }
 
+    /**
+     * Create diretory
+     *
+     * @return void
+     */
     public function createDir()
     {
         $req = post();
@@ -75,6 +80,35 @@ class MediaController
         try {
             $this->media->createDir($req['directory']);
         } catch (\Exception $e) {
+            return Flight::json(array(
+                'message' => $e->getMessage()
+            ), 500);
+        }
+    }
+
+    /**
+     * Delete directory
+     *
+     * @param string $name
+     * 
+     * @return \Flight
+     */
+    public function deleteDir($name)
+    {
+        if (empty($name)) {
+            return Flight::json(array(
+                'message' => 'directory_is_required'
+            ), 422);
+        }
+
+        try {
+            $this->media->deleteDir($name);
+
+            return Flight::json(array(
+                'message' => 'delete_success'
+            ), 200);
+
+        } catch (\MediaFileNotExistsException $e) {
             return Flight::json(array(
                 'message' => $e->getMessage()
             ), 500);

@@ -23,8 +23,8 @@
                                     <span class="flex-fill">
                                         <i class="far fa-folder"></i> {{ dir.name }}
                                     </span>
-                                    <span @click="onClickDeleteDir(index)" class='flex-fill text-right'>
-                                        <i class="fas fa-trash"></i>
+                                    <span v-if="dir.name !== '/'" class='flex-fill text-right'>
+                                        <i @click="onClickDeleteDir(index)" class="fas fa-trash"></i>
                                     </span>
                                 </a>
                             </li>

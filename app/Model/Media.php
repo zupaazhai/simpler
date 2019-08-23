@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Enum\MediaEnum;
 use App\Exception\MediaFileExistException;
+use App\Exception\MediaFileNotExistsException;
 
 class Media
 {
@@ -166,5 +167,36 @@ class Media
         mkdir($path);
 
         return $name;
-    } 
+    }
+    
+    /**
+     * Delete dir
+     *
+     * @param string $name
+     * 
+     * @return void
+     */
+    public function deleteDir($name)
+    {
+        $dir = $this->basePath . $name;
+
+        if (!is_dir($dir) || in_array($name, array('/', '\\'))) {
+            throw new MediaFileNotExistsException();
+            return;
+        } 
+        
+        $files = scandir($dir);
+
+        foreach ($files as $file) {
+            if (in_array($file, array('.', '..'))) {
+                continue;
+            }
+
+            $file = $dir . DS . $file;
+            unlink($file);
+        }
+
+        rmdir($dir);
+    }
+
 }

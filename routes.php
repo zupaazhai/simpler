@@ -37,6 +37,8 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('/media', array(new MediaController, 'index'));
         Flight::route('GET /media/dirs', array(new MediaController, 'dirs'));
         Flight::route('POST /media/dirs', array(new MediaController, 'createDir'));
+        Flight::route('DELETE /media/dirs/@name', array(new MediaController, 'deleteDir'));
+        
         Flight::route('POST /media/files', array(new MediaController, 'files'));
     }
 });
