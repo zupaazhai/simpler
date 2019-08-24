@@ -86,7 +86,7 @@
                         @dragleave.prevent="onDragLeave"
                         @dragover.prevent="onDragOver"
                         @drop.prevent="onDrop"
-                        :class="{'card-body media-editor-body': true, 'draging': isDraggingUpload, 'has-loading': hasLoading}">
+                        :class="{'card-body media-editor-body': true, 'dragging': isDraggingUpload, 'has-loading': hasLoading}">
                         <ul v-if="fileInDirs" class="mailbox-attachments align-items-stretch clearfix">
                             <li v-for="file in fileInDirs">
                                 <span class="mailbox-attachment-icon">
