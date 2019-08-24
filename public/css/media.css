@@ -3,3 +3,7 @@
     height: 500px;
     overflow-y: auto;
 }
+
+#media-editor .draging {
+    border: 5px dashed #ddd;
+}

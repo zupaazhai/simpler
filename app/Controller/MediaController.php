@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Enum\MediaEnum;
 use App\Model\Media;
 use Flight;
 
@@ -22,7 +23,9 @@ class MediaController
     public function index()
     {
         $data = array(
-            'title' => 'Media'
+            'title' => 'Media',
+            'maxFileUpload' => ini_get('upload_max_filesize'),
+            'postMaxSize' => ini_get('post_max_size')
         );
 
         style(array(
@@ -37,7 +40,9 @@ class MediaController
             'url' => array(
                 'dirs' => '/media/dirs',
                 'files' => '/media/files'
-            )
+            ),
+            'allowedMimes' => MediaEnum::getAllowedMimes(),
+            'fileSize' => $data['maxFileUpload']
         ));
         
         view('media.index', $data, 'content');

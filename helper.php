@@ -372,7 +372,7 @@ function script($scripts = array(), $jsData = array())
                 $jsValue = "'" . $value . "'";
             }
 
-            $result .= "window.{$key} = " . $jsValue;
+            $result .= "window.{$key} = " . $jsValue . ";\n";
         }
         $result .= "</script>\n";
     }

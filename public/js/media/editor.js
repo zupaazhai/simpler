@@ -6,7 +6,11 @@ var mediaEditor = new Vue({
         return {
             dirs: [],
             fileInDirs: {},
-            hasLoading: false
+            hasLoading: false,
+            isDraggingUpload: false,
+            uploadFiles: [],
+
+            currentSelectedDir: ''
         }
     },
 
@@ -173,6 +177,80 @@ var mediaEditor = new Vue({
                     self.hasLoading = false
                     self.fileInDirs = res.data.data.files
                 })
+        },
+
+        onDragEnter: function () {
+            this.isDraggingUpload = true
+        },
+
+        onDragLeave: function () {
+            this.isDraggingUpload = false            
+        },
+
+        onDragOver: function () {
+            this.isDraggingUpload = true
+        },
+
+        onDrop: function (e) {
+            this.isDraggingUpload = false
+            var df = e.dataTransfer
+            var files = df.files
+
+            if (!files.length) {
+                return
+            }
+
+            for (var i = 0; i < files.length; i++) {
+
+                var file = {
+                    name: files[i].name,
+                    type: files[i].type,
+                    size: files[i].size / 1024 / 1024,
+                    valid: true,
+                    message: '',
+                    percent: 0,
+                    status: false
+                }
+
+                if (window.allowedMimes.indexOf(file.type) == -1) {
+                    file.valid = false
+                    file.message = 'File type invalid'
+                }
+
+                var allowedFileSize = window.fileSize.indexOf('M') > -1 ? window.fileSize.replace(/[^0-9.]/, '') : 0
+                allowedFileSize = parseInt(allowedFileSize)
+
+                if (file.size > allowedFileSize) {
+                    file.valid = false
+                    file.message = 'File size invalid'
+                }
+
+                this.uploadFiles.push(file)
+            }
+
+            this.upload(this.uploadFiles)
+        },
+
+        readyForUploadFiles: function () {
+
+            var files = [] 
+
+            for (var i = 0; i < this.uploadFiles.length; i++) {
+                if (!this.uploadFiles[i].status) {
+                    files.push(this.uploadFiles[i])
+                }
+            }
+
+            return files
+        },
+
+        deleteUploadFile: function (index) {
+
+            this.uploadFiles[index].status = true
+        },
+
+        upload: function (files) {
+            console.log(files)
         }
     }
 })
