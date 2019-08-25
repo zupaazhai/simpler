@@ -10,6 +10,17 @@
 
 <section id="media-editor" class="content">
     <div class="container-fluid">
+        <?php if (!$mediaIsWritable): ?>
+        <div class="row mb-2">
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-exclamation-triangle"></i> Warning! please check folder permission</h5>
+                    We just found your <strong>/media</strong> folder not has permission to upload a new file, please make sure you are change <i>chmod</i> to <strong>0775 or 0755</strong> or make <i>chown</i> to <strong>www-data</strong> or other user that has permission to upload new file.
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
         <div class="row">
             <div class="col-lg-3">
 
@@ -32,9 +43,11 @@
                         </ul>
                     </div>
                 </div>
+                <?php if ($mediaIsWritable): ?>
                 <a @click.prevent="onClickNewFolder" class="btn btn-block btn-primary mt-3" class="nav-link" href="">
                     <i class="fas fa-folder-plus"></i> New folder
                 </a>
+                <?php endif ?>
             </div>
             <div class="col-lg-9">
 
@@ -78,17 +91,21 @@
                         <div class="flex-fill text-right">
                             <small class="">Max file upload <?php __($maxFileUpload) ?></small>,
                             <small class="mr-2">Post max size <?php __($postMaxSize) ?></small>
+                            <?php if ($mediaIsWritable): ?>
                             <label>
                                 <span class="btn btn-primary">Upload</span>
                                 <input @change="onSelectFile" class="d-none" type="file" multiple>
                             </label>
+                            <?php endif ?>
                         </div>
                     </div>
                     <div 
+                        <?php if ($mediaIsWritable): ?>
                         @dragenter.prevent="onDragEnter"
                         @dragleave.prevent="onDragLeave"
                         @dragover.prevent="onDragOver"
                         @drop.prevent="onDrop"
+                        <?php endif ?>
                         :class="{'card-body media-editor-body': true, 'dragging': isDraggingUpload, 'has-loading': hasLoading}">
                         <ul v-if="fileInDirs" class="mailbox-attachments align-items-stretch clearfix">
                             <li v-for="file in fileInDirs">

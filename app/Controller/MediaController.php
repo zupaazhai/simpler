@@ -26,7 +26,8 @@ class MediaController
         $data = array(
             'title' => 'Media',
             'maxFileUpload' => ini_get('upload_max_filesize'),
-            'postMaxSize' => ini_get('post_max_size')
+            'postMaxSize' => ini_get('post_max_size'),
+            'mediaIsWritable' => is_writable(config('MEDIA_DIR'))
         );
 
         style(array(

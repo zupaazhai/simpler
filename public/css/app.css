@@ -57,3 +57,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+[v-cloak] {
+    display: none;
+}
