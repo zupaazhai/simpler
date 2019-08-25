@@ -445,3 +445,46 @@ function slugify($text)
 
     return $text;
 }
+
+/**
+ * Convert file mb to kb
+ *
+ * @param string $size
+ * 
+ * @return float
+ */
+function convert_file_mb_size($size)
+{
+    if (strpos($size, 'M') === false) {
+        return 0;
+    }
+    
+    $fileSize = preg_replace('/[^0-9.]/', '', $size);
+    
+    return $fileSize * 1024 * 1024;
+}
+
+/**
+ * Convert size readable
+ *
+ * @param float $size
+ * 
+ * @return string
+ */
+function size_readable($size)
+{
+    $unit = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
+    $f = floor((strlen($size) - 1) / 3);
+
+    return sprintf("%.2f", $size / pow(1024, $f)) . @$unit[$f];
+}
+
+/**
+ * Get php input
+ *
+ * @return string
+ */
+function get_php_input()
+{
+    return file_get_contents('php://input');
+}

@@ -53,7 +53,7 @@
                                     <div class="info-box-content" style="min-width: 80%;">
                                         <span class="info-box-text">{{ uploadFile.name }}</span>
                                         <div class="progress">
-                                            <div class="progress-bar" :style="{'width': uploadFile.file + '%'}"></div>
+                                            <div class="progress-bar" :style="{'width': uploadFile.percent + '%'}"></div>
                                         </div>
                                         <div class="progress-description d-flex">
                                             <div class="flex-fill">
@@ -78,7 +78,10 @@
                         <div class="flex-fill text-right">
                             <small class="">Max file upload <?php __($maxFileUpload) ?></small>,
                             <small class="mr-2">Post max size <?php __($postMaxSize) ?></small>
-                            <button class="btn btn-primary">Upload</button>
+                            <label>
+                                <span class="btn btn-primary">Upload</span>
+                                <input @change="onSelectFile" class="d-none" type="file" multiple>
+                            </label>
                         </div>
                     </div>
                     <div 
@@ -93,12 +96,12 @@
                                     <i class="far fa-file-pdf"></i>
                                 </span>
                                 <div class="mailbox-attachment-info">
-                                    <a href="#" class="mailbox-attachment-name">
-                                        <i class="fas fa-paperclip"></i> {{ file.name }}
-                                    </a>
+                                    <a :dowload="file.name" target="_blank" :href="file.url" class="mailbox-attachment-name">{{ file.name }}</a>
                                     <span class="mailbox-attachment-size clearfix mt-1">
-                                        <span>1,245 KB</span>
-                                        <a href="#" class="btn btn-default btn-sm float-right"><i class="fas fa-cloud-download-alt"></i></a>
+                                        <span>{{ file.size }}</span>
+                                        <a @click.prevent="onClickDeleteFile(file.name)" class="btn btn-default btn-sm float-right">
+                                            <i class="fas fa-trash cursor-pointer"></i>
+                                        </a>
                                     </span>
                                 </div>
                             </li>

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Enum\MediaEnum;
+use App\Exception\MediaFileNotExistsException;
 use App\Model\Media;
 use Flight;
 
@@ -35,11 +36,13 @@ class MediaController
         script(array(
             'vue',
             'axios',
+            'jquery-form',
             'media.editor'
         ), array(
             'url' => array(
                 'dirs' => '/media/dirs',
-                'files' => '/media/files'
+                'files' => '/media/files',
+                'uploadFile' => '/media/upload-files'
             ),
             'allowedMimes' => MediaEnum::getAllowedMimes(),
             'fileSize' => $data['maxFileUpload']
@@ -137,5 +140,61 @@ class MediaController
             ),
             'message' => 'get_files'
         ), 200);
+    }
+
+    /**
+     * Upload new file
+     *
+     * @return \Flight
+     */
+    public function uploadFile()
+    {
+        $req = post();
+        $file = Flight::request()->files->file;
+
+        $maxFileUpload = convert_file_mb_size(ini_get('upload_max_filesize'));
+
+        if ($file['size'] > $maxFileUpload) {
+            return Flight::json(array(
+                'message' => 'File size invalid'
+            ), 500);    
+        }
+        
+        if (!in_array($file['type'], MediaEnum::getAllowedMimes())) {
+            return Flight::json(array(
+                'message' => 'File type invalid'
+            ), 500);    
+        }
+
+        $this->media->uploadFile($req['directory'], $file);
+
+        return Flight::json(array(
+            'message' => 'Upload file success'
+        ), 200);
+    }
+
+    /**
+     * Delete file
+     *
+     * @return \Flight
+     */
+    public function deleteFile()
+    {
+        $req = json_decode(get_php_input(), true);
+
+        try {
+
+            $this->media->deleteFile($req['directory'], $req['filename']);
+
+            return Flight::json(array(
+                'message' => 'delete_file_success'
+            ), 200);
+
+        } catch (MediaFileNotExistsException $e) {
+
+            return Flight::json(array(
+                'message' => $e->getMessage()
+            ), 500);
+        }
     }
 }

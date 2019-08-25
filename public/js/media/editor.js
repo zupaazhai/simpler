@@ -10,7 +10,8 @@ var mediaEditor = new Vue({
             isDraggingUpload: false,
             uploadFiles: [],
 
-            currentSelectedDir: ''
+            currentSelectedDir: '',
+            hideSuccessAfterMilSec: 3000
         }
     },
 
@@ -40,6 +41,7 @@ var mediaEditor = new Vue({
             }.bind(this))
 
             this.dirs[index].is_active = true
+            this.currentSelectedDir = this.dirs[index].name
 
             this.fetchFile(this.dirs[index].name)
         },
@@ -193,12 +195,20 @@ var mediaEditor = new Vue({
 
         onDrop: function (e) {
             this.isDraggingUpload = false
+
             var df = e.dataTransfer
             var files = df.files
 
             if (!files.length) {
                 return
             }
+
+            this.handleUploadFile(files)
+        },
+
+        handleUploadFile: function (files) {
+
+            this.uploadFiles = []
 
             for (var i = 0; i < files.length; i++) {
 
@@ -209,7 +219,8 @@ var mediaEditor = new Vue({
                     valid: true,
                     message: '',
                     percent: 0,
-                    status: false
+                    status: false,
+                    file: files[i]
                 }
 
                 if (window.allowedMimes.indexOf(file.type) == -1) {
@@ -228,7 +239,25 @@ var mediaEditor = new Vue({
                 this.uploadFiles.push(file)
             }
 
-            this.upload(this.uploadFiles)
+            for (var i = 0; i < this.uploadFiles.length; i++) {
+
+                if (this.uploadFiles[i].status === false) {
+                    if (this.uploadFiles[i].valid) {
+                        this.upload(this.uploadFiles[i], i)
+                    }
+                }
+            }
+        },
+
+        onSelectFile: function (e) {
+
+            var files = e.target.files
+
+            if (!files.length) {
+                return
+            }
+
+            this.handleUploadFile(files)
         },
 
         readyForUploadFiles: function () {
@@ -249,8 +278,91 @@ var mediaEditor = new Vue({
             this.uploadFiles[index].status = true
         },
 
-        upload: function (files) {
-            console.log(files)
+        upload: function (file, index) {
+
+            var self = this,
+                formData = new FormData
+
+            formData.append('file', file.file)
+            formData.append('directory', this.currentSelectedDir)
+
+            axios.post(window.url.uploadFile, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+
+                onUploadProgress: function(progressEvent) {
+                    var percent = parseInt( Math.round((progressEvent.loaded * 100 ) / progressEvent.total))
+                    self.uploadFiles[index].percent = percent
+                }
+            })
+            .then(function () {
+                
+                self.handleWhenAllSuccess()
+
+                setTimeout(function () {
+                    self.uploadFiles[index].status = true
+                }, self.hideSuccessAfterMilSec)
+            })
+            .catch(function (err) {
+
+                self.uploadFiles[index].valid = false
+                self.uploadFiles[index].message = err.response.data.message
+
+                self.handleWhenAllSuccess()
+
+                setTimeout(function () {
+                    self.uploadFiles[index].status = true
+                }, self.hideSuccessAfterMilSec)
+            })
+        },
+
+        handleWhenAllSuccess: function () {
+            var result = []
+
+            for (var i = 0; i < this.uploadFiles.length; i++) {
+                result.push(this.uploadFiles.status)
+            }
+
+            var isAllSuccess = result.indexOf(false) == -1
+
+            if (isAllSuccess) {
+                this.fetchFile(this.currentSelectedDir)
+            }
+        },
+
+        onClickDeleteFile: function (filename) {
+
+            var self = this
+
+            bootbox.confirm('Are you sure to delete ' + filename + ' file?', function (result) {
+                if (!result) {
+                    return true
+                }
+
+                self.deleteFile(filename)
+            })
+        },
+
+        deleteFile: function (filename) {
+
+            var self = this
+
+            axios.delete(window.url.files, {
+                data: {
+                    directory: this.currentSelectedDir,
+                    filename: filename
+                }
+            })
+            .then(function () {
+
+                toastr.success('Delete file ' + filename + ' success')
+                self.fetchFile(this.currentSelectedDir)
+            })
+            .catch(function () {
+                toastr.error('Delete file ' + filename + ' fail')
+                self.fetchFile(this.currentSelectedDir)
+            })
         }
     }
 })

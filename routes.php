@@ -40,6 +40,8 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('DELETE /media/dirs/@name', array(new MediaController, 'deleteDir'));
         
         Flight::route('POST /media/files', array(new MediaController, 'files'));
+        Flight::route('POST /media/upload-files', array(new MediaController, 'uploadFile'));
+        Flight::route('DELETE /media/files', array(new MediaController, 'deleteFile'));
     }
 });
 

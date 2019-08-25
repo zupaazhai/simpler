@@ -34,10 +34,14 @@ class Media
                 continue;
             }
 
+            $filePath =  $this->basePath . (empty($path) || $path == 'root' ? '' : ($path . DS)) . $file;
+            $isDir = is_dir($filePath);
             $result[] = array(
                 'name' => $file,
-                'type' => is_dir($this->basePath . $file) ? MediaEnum::DIR : MediaEnum::FILE,
-                'is_active' => false
+                'type' => $isDir ? MediaEnum::DIR : MediaEnum::FILE,
+                'is_active' => false,
+                'size' => $isDir ? 0 : size_readable(filesize($filePath)),
+                'url' => config('MEDIA_URL') . (empty($path) || $path == 'root' ? '' : ($path . '/')) . $file
             );
         }
 
@@ -199,4 +203,41 @@ class Media
         rmdir($dir);
     }
 
+    /**
+     * Upload file
+     *
+     * @param string $dir
+     * @param array $file
+     * 
+     * @return bool
+     */
+    public function uploadFile($dir, $file)
+    {
+        $dir = empty($dir) ? DS : ($dir . DS);
+        $dir = $this->basePath . $dir;
+        $filename = $dir . $file['name'];
+
+        return move_uploaded_file($file['tmp_name'], $filename);
+    }
+
+    /**
+     * Delete file
+     *
+     * @param string $dir
+     * @param string $file
+     * 
+     * @return boolean
+     */
+    public function deleteFile($dir, $file)
+    {
+        $filePath = $this->basePath . (empty($dir) ? '' : ($dir . DS)) . $file;
+
+        if (!file_exists($filePath)) {
+            throw new MediaFileNotExistsException();
+        }
+
+        unlink($filePath);
+
+        return true;
+    }
 }
