@@ -17,12 +17,12 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        <label for="source">Source</label>
-                        <select v-model="source" class="form-control" name="source" id="source">
-                            <?php foreach ($data['sources'] as $source): ?>
-                            <option value="<?php __($source) ?>"><?php __(ucfirst($source)) ?></option>
-                            <?php endforeach ?>
-                        </select>
+                        <label class="mr-4" for="source">Source</label>
+                        <?php foreach ($data['sources'] as $source): ?>
+                        <label class="mr-2">
+                            <input v-model="source" name="source" value="<?php __($source) ?>" type="radio"> <?php __(ucfirst($source)) ?>
+                        </label>
+                        <?php endforeach ?>
                     </div>
 
                     <div v-show="source == '<?php __($data['sources']['cdn']) ?>'" id="cdn-block">

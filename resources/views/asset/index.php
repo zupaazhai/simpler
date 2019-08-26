@@ -27,8 +27,9 @@
                             <thead>
                                 <tr>
                                     <th style="width: 3%">#</th>
-                                    <th style="width: 20%">Name</th>
+                                    <th style="width: 30%">Name</th>
                                     <th>Type</th>
+                                    <th>Source</th>
                                     <th>Created By</th>
                                     <th>Created At</th>
                                     <th>Updated By</th>
@@ -54,6 +55,7 @@
                                         <?php endif ?>
                                     </td>
                                     <td><?php __($asset['type']) ?></td>
+                                    <td><?php __($asset['source']) ?></td>
                                     <td><?php __($asset['created_user']['username']) ?></td>
                                     <td><?php __(format_date($asset['created_at'])) ?></td>
                                     <td><?php __($asset['updated_user']['username']) ?></td>
