@@ -15,17 +15,43 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <div class="form-group">
-                        <label  for="name">Name</label>
-                        <input 
-                            v-model="name"
-                            v-validate="'required'" 
-                            placeholder="Enter asset file name, ex app.js, style.css" 
-                            :class="{'form-control': true, 'is-invalid': errors.has('name') }" 
-                            name="name" 
-                            type="text">
-                        <span class="invalid-feedback">{{ errors.first('name') }}</span>
+                        <label for="source">Source</label>
+                        <select v-model="source" class="form-control" name="source" id="source">
+                            <?php foreach ($data['sources'] as $source): ?>
+                            <option value="<?php __($source) ?>"><?php __(ucfirst($source)) ?></option>
+                            <?php endforeach ?>
+                        </select>
                     </div>
+
+                    <div v-show="source == '<?php __($data['sources']['cdn']) ?>'" id="cdn-block">
+                        <div class="form-group">
+                            <label for="url">URL</label>
+                            <input 
+                                v-model="url"
+                                v-validate="{url: true, required: source == '<?php __($data['sources']['cdn']) ?>'}" 
+                                placeholder="Enter url of cdn file" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('url') }" 
+                                name="url" 
+                                type="url">
+                            <span class="invalid-feedback">{{ errors.first('url') }}</span>
+                        </div>
+                    </div>
+                    <div v-show="source == '<?php __($data['sources']['file']) ?>'" id="file-block">
+                        <div class="form-group">
+                            <label  for="name">Name</label>
+                            <input 
+                                v-model="name"
+                                v-validate="{required: source == '<?php __($data['sources']['file']) ?>'}" 
+                                placeholder="Enter asset file name, ex app.js, style.css" 
+                                :class="{'form-control': true, 'is-invalid': errors.has('name') }" 
+                                name="name" 
+                                type="text">
+                            <span class="invalid-feedback">{{ errors.first('name') }}</span>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">

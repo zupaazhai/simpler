@@ -284,10 +284,11 @@ function config($key, $default = null)
  * Include view partial
  *
  * @param string $path
+ * @param array $data
  * 
  * @return void
  */
-function partial($path)
+function partial($path, $data = array())
 {
     $path = preg_replace(array('/\.php/', '/\./'), array('', DS), $path);
     $path = $path . '.php';

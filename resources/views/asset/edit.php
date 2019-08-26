@@ -16,10 +16,18 @@
                 <div class="col-md-8">
                     <div class="card">
                         <div class="card-header">
+                            <?php if ($asset['source'] == $sources['file']): ?>
                             <div class="card-title">Content</div>
+                            <?php else: ?>
+                            <div class="card-title">URL</div>
+                            <?php endif ?>
                         </div>
                         <div class="card-body">
+                            <?php if ($asset['source'] == $sources['file']): ?>                            
                             <textarea ref="contentEditor" class="form-control" name="content" id="" cols="30" rows="10"><?php __($asset['content']) ?></textarea>
+                            <?php else: ?>
+                            <input name="url" value="<?php __($asset['url']) ?>" class="form-control" type="text">
+                            <?php endif ?>
                         </div>
                     </div>
                 </div>   
@@ -27,13 +35,19 @@
                     <div class="card">
                         <input name="_method" value="put" type="hidden">
                         <div class="card-header">
+                            <?php if ($asset['source'] == $sources['file']): ?>
                             <h3 class="card-title">File: <?php echo $asset['name'] ?></h3>
+                            <?php else: ?>
+                            <h3 class="card-title">Cdn File</h3>
+                            <?php endif ?>
                         </div> 
                         <div class="card-body">
+                            <?php if ($asset['source'] == $sources['file']): ?>
                             <div class="form-group">
                                 <label for="name">File name</label>
                                 <input class="form-control" name="name" value="<?php __($asset['name']) ?>" type="text">
                             </div>
+                            <?php endif ?>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">

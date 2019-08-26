@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use App\Enum\AssetEnum;
 use App\Exception\AssetFileExistException;
 use App\Library\DB;
 
@@ -11,7 +12,9 @@ class Asset
         'name',
         'type',
         'position',
-        'content'
+        'content',
+        'source',
+        'url'
     );
 
     protected $db;
@@ -38,21 +41,30 @@ class Asset
     public function create($asset)
     {
         $saveAsset = array_only($asset, $this->fillable);
+        $isFile = $asset['source'] == AssetEnum::$sources['file'];
 
-        $asset['name'] = $this->parseFileName($asset['name']);
+        if ($isFile) {
+            $asset['name'] = $this->parseFileName($asset['name']);
+        } else {
+            $asset['name'] = 'file.cdn';
+        }
         
-        if ($this->isFileExist($asset['name'])) {
+        if ($isFile && $this->isFileExist($asset['name'])) {
             throw new AssetFileExistException();
         }
 
         $user = User::auth();
-        $saveAsset['name'] = $this->parseFileName($saveAsset['name']);
+        $saveAsset['name'] = $asset['name'];
         $saveAsset['created_user_id'] = $user['id'];
         $saveAsset['updated_user_id'] = $user['id'];
+        $saveAsset['source'] = empty($asset['source']) ? AssetEnum::$sources['file'] : $asset['source'];
+        $saveAsset['url'] = empty($asset['url']) ? '' : $asset['url'];
 
         $createdAsset = $this->db->create($saveAsset);
 
-        $this->createFile($asset['name'], $asset['content']);
+        if ($isFile) {
+            $this->createFile($asset['name'], $asset['content']);
+        }
 
         return $createdAsset;
     }
@@ -119,8 +131,13 @@ class Asset
     public function update($id, $asset)
     {
         $savedAsset = $this->findById($id);
+        $isFile = $savedAsset['source'] == AssetEnum::$sources['file'];
 
-        if ($savedAsset['name'] != $asset['name']) {
+        if (!$isFile) {
+            $asset['name'] = 'file.cdn';
+        }
+
+        if ($savedAsset['name'] != $asset['name'] && $isFile) {
             $file = $this->assetDir . $asset['name'];
             
             if (file_exists($file)) {
@@ -135,9 +152,9 @@ class Asset
         $saveAsset['updated_user_id'] = $user['id'];
 
         $file = $this->assetDir . $asset['name'];
+        $this->db->update($id, $saveAsset);
 
-        if (file_exists($file)) {
-            $this->db->update($id, $saveAsset);
+        if ($isFile && file_exists($file)) {
             file_put_contents($file, $saveAsset['content']);
         }
 
@@ -185,6 +202,7 @@ class Asset
     public function delete($id)
     {
         $asset = $this->db->findById($id);
+        $isFile = $asset['source'] == AssetEnum::$sources['file'];
 
         if (!$asset) {
             return false;
@@ -193,11 +211,13 @@ class Asset
         $this->db->delete($id);
         $file = $this->assetDir . $asset['name'];
 
-        if (!file_exists($file)) {
+        if ($isFile && !file_exists($file)) {
             return false;
         }
 
-        unlink($file);
+        if ($isFile) {
+            unlink($file);
+        }
 
         return true;
     }

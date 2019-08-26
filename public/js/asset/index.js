@@ -9,7 +9,9 @@ var createForm = new Vue({
             isLoading: false,
             name: '',
             type: 'js',
-            position: 'bottom'
+            position: 'bottom',
+            url: '',
+            source: 'file'
         }
     },
 
@@ -39,7 +41,9 @@ var createForm = new Vue({
             axios.post(url, {
                 name: this.name,
                 type: this.type,
-                position: this.position
+                position: this.position,
+                source: this.source,
+                url: this.url
             })
             .then(function (res) {
 

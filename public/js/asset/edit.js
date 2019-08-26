@@ -14,6 +14,11 @@ var assetForm = new Vue({
         var self = this
 
         this.$nextTick(function () {
+
+            if (!this.$refs.contentEditor) {
+                return
+            }
+
             self.editor = CodeMirror.fromTextArea(this.$refs.contentEditor, {
                 theme: 'mdn-like',
                 lineNumbers: true,

@@ -27,7 +27,8 @@ class AssetController
 
         $data = array(
             'title' => 'Asset',
-            'assets' => $assets
+            'assets' => $assets,
+            'sources' => AssetEnum::$sources
         );
 
         view('asset.index', $data, 'content');
@@ -87,7 +88,8 @@ class AssetController
             'asset' => $asset,
             'title' => 'Edit ' . $asset['name'], 
             'types' => AssetEnum::$types,
-            'positions' => AssetEnum::$positions
+            'positions' => AssetEnum::$positions,
+            'sources' => AssetEnum::$sources
         );
 
         style(array('codemirror', 'codemirror-theme'));

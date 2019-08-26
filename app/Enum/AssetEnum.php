@@ -13,4 +13,9 @@ class AssetEnum
         'bottom' => 'End of body',
         'top' => 'In header'
     );
+
+    public static $sources = array(
+        'file' => 'file',
+        'cdn' => 'cdn'
+    );
 }

@@ -46,7 +46,12 @@
                                         <?php
                                             $id = 'asset/'  . $asset['id'];
                                         ?>
+
+                                        <?php if ($asset['source'] == $sources['file']): ?>
                                         <a href="<?php __($id) ?>"><?php __($asset['name']) ?></a>
+                                        <?php else: ?>
+                                        <a href="<?php __($id) ?>"><?php __($asset['url']) ?></a>
+                                        <?php endif ?>
                                     </td>
                                     <td><?php __($asset['type']) ?></td>
                                     <td><?php __($asset['created_user']['username']) ?></td>
@@ -76,5 +81,5 @@
 </section>
 
 <div>
-    <?php echo partial('asset.create-modal') ?>
+    <?php echo partial('asset.create-modal', array('sources' => $sources)) ?>
 </div>
