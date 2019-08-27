@@ -3,6 +3,7 @@
 session_start();
 
 define('DS', DIRECTORY_SEPARATOR);
+define('ROOT_PATH', dirname(__FILE__) . DS);
 
 define('APP_NAME', 'Simpler');
 
