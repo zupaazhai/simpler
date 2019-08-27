@@ -1,5 +1,9 @@
 <?php
 
+use App\Model\Setting;
+
+global $_SETTING;
+
 /**
  * Render view
  *
@@ -488,4 +492,25 @@ function size_readable($size)
 function get_php_input()
 {
     return file_get_contents('php://input');
+}
+
+/**
+ * Get setting
+ *
+ * @param string $key
+ * 
+ * @return void
+ */
+function setting($key)
+{
+    global $_SETTING;
+
+    if (!empty($_SETTING)) {
+        return $_SETTING;
+    }
+
+    $setting = $setting = new Setting;
+    $_SETTING = $setting->findAll();
+
+    return $_SETTING;
 }
