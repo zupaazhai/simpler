@@ -45,6 +45,7 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('DELETE /media/files', array(new MediaController, 'deleteFile'));
 
         Flight::route('GET /setting', array(new SettingController, 'index'));
+        Flight::route('PUT /setting', array(new SettingController, 'update'));
     }
 });
 
