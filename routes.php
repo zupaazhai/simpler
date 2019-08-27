@@ -4,6 +4,7 @@ use App\Controller\AssetController;
 use App\Controller\UserController;
 use App\Controller\DashboardController;
 use App\Controller\MediaController;
+use App\Controller\SettingController;
 
 Flight::route('GET /login', array(new UserController, 'loginForm'));
 Flight::route('POST /login', array(new UserController, 'login'));
@@ -42,6 +43,8 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('POST /media/files', array(new MediaController, 'files'));
         Flight::route('POST /media/upload-files', array(new MediaController, 'uploadFile'));
         Flight::route('DELETE /media/files', array(new MediaController, 'deleteFile'));
+
+        Flight::route('GET /setting', array(new SettingController, 'index'));
     }
 });
 

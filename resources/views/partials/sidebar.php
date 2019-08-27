@@ -37,7 +37,7 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="" class="nav-link">
+                    <a href="/setting" class="nav-link <?php echo current_route('/setting') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-cog"></i>
                         <p>Setting</p>
                     </a>
