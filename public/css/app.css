@@ -58,6 +58,10 @@
     white-space: nowrap;
 }
 
+.font-bold {
+    font-weight: bold;
+}
+
 [v-cloak] {
     display: none;
 }

@@ -14,7 +14,8 @@ class Asset
         'position',
         'content',
         'source',
-        'url'
+        'url',
+        'order'
     );
 
     protected $db;
@@ -59,6 +60,7 @@ class Asset
         $saveAsset['updated_user_id'] = $user['id'];
         $saveAsset['source'] = empty($asset['source']) ? AssetEnum::$sources['file'] : $asset['source'];
         $saveAsset['url'] = empty($asset['url']) ? '' : $asset['url'];
+        $saveAsset['order'] = $this->findLatestOrder($saveAsset['position']);
 
         $createdAsset = $this->db->create($saveAsset);
 
@@ -89,6 +91,27 @@ class Asset
         }
 
         return $result;
+    }
+
+    /**
+     * Find all and group with position
+     *
+     * @return array
+     */
+    public function findAllAndGroup()
+    {
+        $assets = $this->findAll();
+        $tops = array_filter($assets, function ($asset) {
+            return $asset['position'] == 'top';
+        });
+        $bottoms = array_filter($assets, function ($asset) {
+            return $asset['position'] == 'bottom';
+        });
+
+        return array(
+            'top' => sort_assoc_array($tops, 'order'),
+            'bottom' => sort_assoc_array($bottoms, 'order')
+        );
     }
 
     /**
@@ -260,5 +283,36 @@ class Asset
         $filename = str_replace('.', '-', $fileinfo['filename']);
 
         return $filename . $ext;
-    } 
+    }
+    
+    /**
+     * Find latest order
+     *
+     * @param string $position
+     * 
+     * @return int
+     */
+    private function findLatestOrder($position)
+    {
+        $assets = $this->findAll();
+        $latestId = 1;
+        $orders = array();
+
+        foreach ($assets as $asset) {
+            if ($asset['position'] !== $position) {
+                continue;
+            }
+
+            $orders[] = $asset['order'];
+        }
+
+        if (empty($orders)) {
+            return $latestId;
+        }
+
+        $latestId = max($orders);
+        ++$latestId;
+
+        return $latestId;
+    }
 }

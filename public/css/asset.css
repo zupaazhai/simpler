@@ -1,0 +1,18 @@
+
+:root {
+    --gray-color: rgba(0,0,0,.125);
+}
+
+.asset-list-wrapper {
+    min-height: 50px;
+}
+.asset-item {
+    border: 1px solid var(--gray-color);
+    padding: .5rem;
+    border-radius: .25rem;
+    background-color: #fff;
+}
+.asset-item-placeholder {
+    border: 1px solid var(--gray-color);
+    margin: .5rem 0;
+}

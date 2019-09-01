@@ -236,3 +236,44 @@ function setting($key)
 
     return $_SETTING;
 }
+
+/**
+ * Truncate URL
+ *
+ * @param string $text
+ * @param int $firstLength
+ * 
+ * @return string
+ */
+function url_truncate($text, $firstLength = 11)
+{
+    $text = preg_replace(array('/https?\:/'), '', $text);
+    $first = substr($text, 0, $firstLength);
+    $url = parse_url($text);
+    $filname = empty($url['path']) ? '' : basename($url['path']);
+    
+    return $first . '...' . $filname;
+}
+
+/**
+ * Sort assoc arryc
+ *
+ * @param array $data
+ * @param string $key
+ * @param string $direction
+ * 
+ * @return array
+ */
+function sort_assoc_array($data = array(), $key, $direction = 'asc')
+{
+    $direction = $direction == 'desc' ? SORT_DESC : SORT_ASC;
+    $groupOfKeys = array();
+    
+    foreach ($data as $value) {
+        $groupOfKeys[] = $value[$key];
+    }
+
+    array_multisort($groupOfKeys, $direction, $data);
+
+    return $data;
+}

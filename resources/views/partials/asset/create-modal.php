@@ -65,9 +65,10 @@
                         <div class="col-6">
                             <div class="form-group">
                                 <label for="type">Placement position</label>
-                                <select v-modal="status" class="form-control" name="type" id="type">
-                                    <option value="bottom">End of body</option>
-                                    <option value="top">In header</option>
+                                <select v-model="position" class="form-control" name="position" id="position">
+                                    <?php foreach ($data['positions'] as $key => $value): ?>
+                                    <option value="<?php __($key) ?>"><?php __($value) ?></option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
                         </div>

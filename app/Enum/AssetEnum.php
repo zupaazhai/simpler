@@ -10,8 +10,8 @@ class AssetEnum
     );
 
     public static $positions = array(
-        'bottom' => 'End of body',
-        'top' => 'In header'
+        'top' => 'In header',
+        'bottom' => 'End of body'
     );
 
     public static $sources = array(

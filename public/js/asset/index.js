@@ -75,10 +75,47 @@ var createForm = new Vue({
     }
 })
 
-var assetTable = new Vue({
-    el: '#asset-table',
+var assetList = new Vue({
+    el: '#asset-list',
+
+    mounted: function () {
+
+        this.topList = $(this.$refs.assetTopList)
+        this.bottomList = $(this.$refs.assetBottomList)
+
+        this.topList.sortable({
+            connectWith: '.asset-list-wrapper',
+            placeholder: 'asset-item-placeholder',
+            update: this.onItemDrop,
+            sort: this.onItemSorting
+        }).disableSelection()
+
+        this.bottomList.sortable({
+            connectWith: '.asset-list-wrapper',
+            placeholder: 'asset-item-placeholder',
+            update: this.onItemDrop,
+            sort: this.onItemSorting
+        })
+        .disableSelection()
+    },
+
+    data: function () {
+        return {
+            topList: null,
+            bottomList: null
+        }
+    },
 
     methods: {
+
+        onItemSorting: function (e, ui) {
+            ui.item[0].style.opacity = 0.5
+        },
+
+        onItemDrop: function (e, ui) {
+            ui.item[0].style.opacity = 1
+        },
+
         onClickDelete: function (id) {
             var self = this
             bootbox.confirm('Are you sure to delete this asset?', function (res) {

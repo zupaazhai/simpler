@@ -23,19 +23,26 @@ class AssetController
      */
     public function index()
     {
-        $assets = $this->asset->findAll();
+        $assets = $this->asset->findAllAndGroup();
 
         $data = array(
             'title' => 'Asset',
             'assets' => $assets,
-            'sources' => AssetEnum::$sources
+            'sources' => AssetEnum::$sources,
+            'positions' => AssetEnum::$positions
         );
 
         view('asset.index', $data, 'content');
+
+        style(array(
+            'asset'
+        ));
+
         script(array(
             'vue',
             'vue-validate', 
             'axios',
+            'jquery-ui',
             'asset.index'
         ));
 
