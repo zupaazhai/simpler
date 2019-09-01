@@ -32,8 +32,6 @@ class AssetController
             'positions' => AssetEnum::$positions
         );
 
-        view('asset.index', $data, 'content');
-
         style(array(
             'asset'
         ));
@@ -44,7 +42,13 @@ class AssetController
             'axios',
             'jquery-ui',
             'asset.index'
+        ), array(
+            'url' => array(
+                'sort' => '/asset/sort'
+            )
         ));
+
+        view('asset.index', $data, 'content');
 
         return layout('app');
     }
@@ -181,5 +185,21 @@ class AssetController
         flash('status', $status);
 
         return back();
+    }
+
+    /**
+     * Sort asset item
+     *
+     * @return \Flight
+     */
+    public function sort()
+    {
+        $req = post();
+
+        $this->asset->sort($req);
+
+        return Flight::json(array(
+            'message' => 'sorted'
+        ));
     }
 }

@@ -156,6 +156,18 @@ class Asset
         $savedAsset = $this->findById($id);
         $isFile = $savedAsset['source'] == AssetEnum::$sources['file'];
 
+        if (empty($asset['name'])) {
+            $asset['name'] = $savedAsset['name'];
+        }
+
+        if (empty($asset['content'])) {
+            $asset['content'] = $savedAsset['content'];
+        }
+
+        if (empty($asset['position'])) {
+            $asset['position'] = $savedAsset['position'];
+        }
+
         if (!$isFile) {
             $asset['name'] = 'file.cdn';
         }
@@ -165,7 +177,9 @@ class Asset
             
             if (file_exists($file)) {
                 throw new AssetFileExistException();
-            }            
+            }
+
+            unlink($this->assetDir . $savedAsset['name']);
         }
 
         $saveAsset = array_only($asset, $this->fillable);
@@ -177,7 +191,7 @@ class Asset
         $file = $this->assetDir . $asset['name'];
         $this->db->update($id, $saveAsset);
 
-        if ($isFile && file_exists($file)) {
+        if ($isFile) {
             file_put_contents($file, $saveAsset['content']);
         }
 
@@ -314,5 +328,31 @@ class Asset
         ++$latestId;
 
         return $latestId;
+    }
+
+    /**
+     * Sort asset item
+     *
+     * @param array $data
+     * 
+     * @return void
+     */
+    public function sort($data)
+    {
+        $order = 1;
+
+        foreach ($data as $position => $assetIds) {
+            foreach ($assetIds as $assetId) {
+                $asset = array(
+                    'id' => $assetId,
+                    'order' => $order,
+                    'position' => $position
+                );
+                ++$order;
+
+                $this->update($assetId, $asset);
+            }
+            $order = 1;
+        }
     }
 }

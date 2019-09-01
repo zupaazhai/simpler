@@ -86,15 +86,17 @@ var assetList = new Vue({
         this.topList.sortable({
             connectWith: '.asset-list-wrapper',
             placeholder: 'asset-item-placeholder',
-            update: this.onItemDrop,
-            sort: this.onItemSorting
+            update: this.onItemUpdate,
+            sort: this.onItemSorting,
+            stop: this.onItemStop
         }).disableSelection()
 
         this.bottomList.sortable({
             connectWith: '.asset-list-wrapper',
             placeholder: 'asset-item-placeholder',
-            update: this.onItemDrop,
-            sort: this.onItemSorting
+            update: this.onItemUpdate,
+            sort: this.onItemSorting,
+            stop: this.onItemStop
         })
         .disableSelection()
     },
@@ -102,17 +104,47 @@ var assetList = new Vue({
     data: function () {
         return {
             topList: null,
-            bottomList: null
+            bottomList: null,
+            sorting: false
         }
     },
 
     methods: {
 
+        getAssetItem: function () {
+
+            var assets = {
+                top: this.topList.sortable('toArray'),
+                bottom: this.bottomList.sortable('toArray')
+            }
+
+            return assets
+        },
+
         onItemSorting: function (e, ui) {
             ui.item[0].style.opacity = 0.5
         },
 
-        onItemDrop: function (e, ui) {
+        onItemUpdate: function (e, ui) {
+
+            var self = this
+
+            if (self.sorting) {
+                return
+            }
+
+            self.sorting = true
+
+            axios.post(window.url.sort, this.getAssetItem())
+                .then(function () {
+                    self.sorting = false
+                })
+                .catch(function (err) {
+                    self.sorting = false
+                })
+        },
+
+        onItemStop: function (e, ui) {
             ui.item[0].style.opacity = 1
         },
 

@@ -34,6 +34,7 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('GET /asset/@id', array(new AssetController, 'edit'));
         Flight::route('PUT /asset/@id', array(new AssetController, 'update'));
         Flight::route('DELETE /asset/@id', array(new AssetController, 'delete'));
+        Flight::route('POST /asset/sort', array(new AssetController, 'sort'));
 
         Flight::route('/media', array(new MediaController, 'index'));
         Flight::route('GET /media/dirs', array(new MediaController, 'dirs'));

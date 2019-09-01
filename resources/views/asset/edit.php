@@ -49,22 +49,12 @@
                             </div>
                             <?php endif ?>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12">
                                     <div class="form-group">
                                         <label for="type">Type</label>
                                         <select class="form-control" name="type" id="type">
                                             <?php foreach ($types as $key => $value): ?>
                                             <option <?php echo $key == $asset['type'] ? 'selected' : '' ?> value="<?php __($key) ?>"><?php __($value) ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="type">Placement position</label>
-                                        <select class="form-control" name="position" id="type">
-                                            <?php foreach ($positions as $key => $value): ?>
-                                            <option <?php echo $key == $asset['position'] ? 'selected' : '' ?> value="<?php __($key) ?>"><?php __($value) ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
