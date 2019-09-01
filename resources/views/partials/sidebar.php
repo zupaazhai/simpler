@@ -1,5 +1,5 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <a href="../index3.html" class="brand-link text-center">
+    <a href="/dashboard" class="brand-link text-center">
         <span class="brand-text font-weight"><?php echo config('APP_NAME') ?></span>
     </a>
 
