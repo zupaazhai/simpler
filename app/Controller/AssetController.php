@@ -66,6 +66,11 @@ class AssetController
             $req['content'] = '';
             $asset = $this->asset->create($req);
 
+            flash('status', array(
+                'status' => 'success',
+                'message' => 'Create asset file success'
+            ));
+
             return Flight::json(array(
                 'data' => $asset,
                 'message' => 'create_asset_success'

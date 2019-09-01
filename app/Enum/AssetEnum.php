@@ -6,7 +6,7 @@ class AssetEnum
 {
     public static $types = array(
         'js' => 'JS',
-        'css' => 'CSS'
+        'css' => 'CSS/Font'
     );
 
     public static $positions = array(

@@ -47,6 +47,10 @@ var createForm = new Vue({
             })
             .then(function (res) {
 
+                if (self.source == 'cdn') {
+                    return window.location.reload()
+                }
+
                 var redirectUrl = editUrl.replace('@id', res.data.data.id)
 
                 window.location.href = redirectUrl
