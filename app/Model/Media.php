@@ -100,7 +100,37 @@ class Media
         }
 
         return $result;
-    }  
+    }
+
+    /**
+     * Count all
+     *
+     * @param string $path
+     * 
+     * @return int
+     */
+    public function count($path = '')
+    {
+        $total = 0;
+        $dir = empty($path) ? $this->basePath : $path;
+        $files = scandir($dir);
+
+        foreach ($files as $file) {
+
+            if (in_array($file, array('.', '..', 'index.php'))) {
+                continue;
+            }
+
+            if (is_dir($dir . $file)) {
+                $total += $this->count($dir . $file);
+                continue;
+            }
+            
+            $total++;
+        }
+
+        return $total;
+    }
 
     /**
      * List only dir

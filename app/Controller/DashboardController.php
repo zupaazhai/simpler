@@ -2,8 +2,25 @@
 
 namespace App\Controller;
 
+use App\Model\Media;
+use App\Model\Asset;
+use App\Model\User;
+
 class DashboardController extends Controller
 {   
+    protected $media;
+
+    protected $asset;
+
+    protected $user;
+
+    public function __construct()
+    {
+        $this->media = new Media;
+        $this->asset = new Asset;
+        $this->user = new User;
+    }
+
     /**
      * Dashboard index
      *
@@ -22,21 +39,21 @@ class DashboardController extends Controller
                 ),
                 array(
                     'title' => 'Media',
-                    'count' => 0,
+                    'count' => $this->media->count(),
                     'icon' => 'fas fa-photo-video',
                     'bg' => 'bg-primary',
                     'route' => '/media'
                 ),
                 array(
                     'title' => 'Asset',
-                    'count' => 0,
+                    'count' => $this->asset->count(),
                     'icon' => 'fas fa-copy',
                     'bg' => 'bg-green',
                     'route' => '/asset'
                 ),
                 array(
                     'title' => 'User',
-                    'count' => 0,
+                    'count' => $this->user->count(),
                     'icon' => 'fas fa-users',
                     'bg' => 'bg-danger',
                     'route' => '/user'

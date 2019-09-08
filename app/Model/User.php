@@ -189,6 +189,18 @@ class User
     }
 
     /**
+     * Count all user
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $users = $this->findAll();
+
+        return count($users);
+    }
+
+    /**
      * Delete user
      *
      * @param string $findKey

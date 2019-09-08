@@ -94,6 +94,18 @@ class Asset
     }
 
     /**
+     * Count asset
+     *
+     * @return int
+     */
+    public function count()
+    {
+        $assets = $this->findAll();
+
+        return count($assets);
+    }
+
+    /**
      * Find all and group with position
      *
      * @return array
