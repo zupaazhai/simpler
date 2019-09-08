@@ -13,7 +13,7 @@
                     </a>
                 </li>
                 <li class="nav-item has-treeview">
-                    <a href="" class="nav-link">
+                    <a href="/page" class="nav-link <?php echo current_route('/page') ? 'active' : '' ?>">
                         <i class="nav-icon fas fa-file"></i>
                         <p>Page</p>
                     </a>

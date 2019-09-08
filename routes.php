@@ -4,6 +4,7 @@ use App\Controller\AssetController;
 use App\Controller\UserController;
 use App\Controller\DashboardController;
 use App\Controller\MediaController;
+use App\Controller\PageController;
 use App\Controller\SettingController;
 
 Flight::route('GET /login', array(new UserController, 'loginForm'));
@@ -28,6 +29,8 @@ Flight::map(config('ADMIN_PREFIX'), function () {
         Flight::route('GET /user/@id', array(new UserController, 'edit'));
         Flight::route('PUT /user/@id', array(new UserController, 'update'));
         Flight::route('DELETE /user/@id', array(new UserController, 'delete'));
+
+        Flight::route('/page', array(new PageController, 'index'));
 
         Flight::route('/asset', array(new AssetController, 'index'));
         Flight::route('POST /asset/create', array(new AssetController, 'save'));
