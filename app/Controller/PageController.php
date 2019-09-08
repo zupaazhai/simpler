@@ -20,7 +20,16 @@ class PageController
         );
 
         view('page.index', $data, 'content');
+        
+        style(array(
+            'page'
+        ));
 
+        script(array(
+            'vue',
+            'vue-validate',
+            'page.index'
+        ));
         return layout('app');
     }
 }

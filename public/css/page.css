@@ -1,0 +1,10 @@
+
+.page-card {
+    max-height: 100px;
+}
+
+.new-page-card {
+    max-height: 100px;
+    height: 100px;
+    border: 2px dashed rgba(0, 0, 0, .125);
+}
