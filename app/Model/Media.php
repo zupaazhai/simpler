@@ -40,8 +40,9 @@ class Media
                 'name' => $file,
                 'type' => $isDir ? MediaEnum::DIR : MediaEnum::FILE,
                 'is_active' => false,
+                'is_image' => is_image($filePath),
                 'size' => $isDir ? 0 : size_readable(filesize($filePath)),
-                'url' => config('MEDIA_URL') . (empty($path) || $path == 'root' ? '' : ($path . '/')) . $file
+                'url' => config('MEDIA_URL') . (empty($path) || $path == 'root' ? '' : ($path . '/')) . rawurlencode($file)
             );
         }
 

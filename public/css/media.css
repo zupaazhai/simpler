@@ -1,3 +1,7 @@
+:root {
+    --media-height: 120px;
+}
+
 #media-editor .media-editor-body {
     min-height: 500px;
     height: 500px;
@@ -18,4 +22,21 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+#media-editor .mailbox-attachment-icon .preview-image {
+    height: var(--media-height);
+    background-size: cover;
+    background-position: center;
+}
+
+#media-editor .mailbox-attachment-icon .non-image {
+    height: var(--media-height);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#media-editor .mailbox-attachment-icon .non-image i {
+    font-size: 3.5rem;
 }

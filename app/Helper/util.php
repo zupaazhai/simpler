@@ -277,3 +277,24 @@ function sort_assoc_array($data = array(), $key, $direction = 'asc')
 
     return $data;
 }
+
+/**
+ * Is Image
+ *
+ * @param string $path
+ * 
+ * @return boolean
+ */
+function is_image($path)
+{
+    $images = array(
+        'image/jpg',
+        'image/jpeg',
+        'image/png',
+        'image/gif'
+    );
+
+    $mime = mime_content_type($path);
+
+    return in_array($mime, $images);
+}
