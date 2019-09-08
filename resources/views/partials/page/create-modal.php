@@ -3,7 +3,7 @@
         <form @submit.prevent="onCreatePage" action="/page/create" method="post">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Create new page</h3>
+                    <h3 class="modal-title">Create page</h3>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
